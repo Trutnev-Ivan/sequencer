@@ -1,51 +1,83 @@
 #pragma once
 #include "JsonItem.h"
+#include "CommonItem.h"
 #include <vector>
 #include <tuple>
 
-class ArrayItem: public JsonItem<std::vector<std::tuple<const std::type_info&, void*>>*>
+class ArrayItem: public JsonItem<std::vector<CommonItem>*>
 {
 public:
     ArrayItem():
-        JsonItem<std::vector<std::tuple<const std::type_info&, void*>>*>(
-            new std::vector<std::tuple<const std::type_info&, void*>>()
+        JsonItem<std::vector<CommonItem>*>(
+            new std::vector<CommonItem>()
         )
         {}
 
     ~ArrayItem();
 
-    std::tuple<const std::type_info&, void*> get(int index);
-    const std::type_info& getType(int index);
+    CommonItem get(int index);
+    std::type_index* getType(int index);
     int getLength();
-    virtual std::string toString() override;
-    friend std::ostream& operator<<(std::ostream& out, ArrayItem arrayItem);
-    friend std::ostream& operator<<(std::ostream& out, ArrayItem* arrayItem);
+    CommonItem pop();
+    std::vector<CommonItem>::const_iterator begin();
+    std::vector<CommonItem>::const_iterator end();
+    void erase(int index);
+    void erase(std::vector<CommonItem>::const_iterator iterator);
+    void erase(int start, int end);
+    void erase(
+        std::vector<CommonItem>::const_iterator startIterator,
+        std::vector<CommonItem>::const_iterator endIterator
+        );
+    virtual std::string toString() const override;
+    CommonItem operator[](int index);
+    friend std::ostream& operator<<(std::ostream& out, const ArrayItem& arrayItem);
+    friend std::ostream& operator<<(std::ostream& out, const ArrayItem* arrayItem);
 
     template<class T>
-    void push_back(T* value)
+    ArrayItem* push_back(T* value)
     {
         if (!this->isInstanceOfJsonItem<T>())
             throw new JsonTypeException;
 
-        std::tuple<const std::type_info&, void*> tuple (typeid(T), static_cast<void*>(value));
-        this->value->push_back(tuple);
+        CommonItem item;
+        item.init<T>(value);
+
+        this->value->push_back(item);
+        return this;
     }
 
     template<class T>
     T* cast(int index)
     {
-        std::tuple<const std::type_info&, void*> tuple = this->get(index);
-        
-       if (typeid(T).hash_code() != std::get<0>(tuple).hash_code())
-        throw new JsonCastTypeException;
+        CommonItem item = this->get(index);
+              
+        if (typeid(T).hash_code() != item.getType()->hash_code())
+            throw new JsonCastTypeException;
 
-        return static_cast<T*>(std::get<1>(tuple));
+        return static_cast<T*>(item.getItem());
+    }
+    
+    template<class T>
+    ArrayItem* insert(int index, T* value)
+    {
+        if (!this->isInstanceOfJsonItem<T>())
+            throw new JsonTypeException;
+
+        CommonItem item;
+        item.init<T>(value);
+        this->value->insert(this->value->begin() + index, item);
+
+        return this;
     }
 
     template<class T>
-    std::vector<std::tuple<const std::type_info&, void*>>* insert(int index, T value)
+    T* pop()
     {
-        
-        return this->value();
+        if (!this->isInstanceOfJsonItem<T>())
+            throw new JsonCastTypeException;
+
+        T* item = this->cast<T>(this->getLength() - 1);
+        this->value->pop_back();
+        return item;
     }
 };

@@ -1,6 +1,6 @@
 #include "BoolItem.h"
 
-std::string BoolItem::toString()
+std::string BoolItem::toString() const
 {
     if (this->getValue())
         return "true";
@@ -8,13 +8,13 @@ std::string BoolItem::toString()
     return "false";
 }
 
-std::ostream& operator<<(std::ostream& out, BoolItem boolItem)
+std::ostream& operator<<(std::ostream& out, const BoolItem& boolItem)
 {
     out << boolItem.toString();
     return out;
 }
 
-std::ostream& operator<<(std::ostream& out, BoolItem* boolItem)
+std::ostream& operator<<(std::ostream& out, const BoolItem* boolItem)
 {
     out << boolItem->toString();
     return out;

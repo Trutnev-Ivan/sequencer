@@ -24,7 +24,7 @@ public:
         this->setValue(value);
     }
 
-    virtual T getValue()
+    virtual T getValue() const
     {
         return this->value;
     }
@@ -34,7 +34,7 @@ public:
         this->value = value;
     }
 
-    virtual std::string toString() {return "";};
+    virtual std::string toString() const {return "";};
 
     template<class instanceType>
     bool isInstanceOfJsonItem()

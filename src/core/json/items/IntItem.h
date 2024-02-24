@@ -7,7 +7,7 @@ public:
     IntItem(int value):
         JsonItem(value)
         {}
-    virtual std::string toString() override;
-    friend std::ostream& operator<<(std::ostream& out, IntItem intItem);
-    friend std::ostream& operator<<(std::ostream& out, IntItem* intItem);
+    virtual std::string toString() const override;
+    friend std::ostream& operator<<(std::ostream& out, const IntItem& intItem);
+    friend std::ostream& operator<<(std::ostream& out, const IntItem* intItem);
 };

@@ -7,7 +7,7 @@ public:
     FloatItem(float value):
         JsonItem<float>(value)
         {}
-    virtual std::string toString() override;
-    friend std::ostream& operator<<(std::ostream& out, FloatItem floatItem);
-    friend std::ostream& operator<<(std::ostream& out, FloatItem* floatItem);
+    virtual std::string toString() const override;
+    friend std::ostream& operator<<(std::ostream& out, const FloatItem& floatItem);
+    friend std::ostream& operator<<(std::ostream& out, const FloatItem* floatItem);
 };

@@ -12,6 +12,8 @@ add_library(json
             "${INCLUDE_CORE_DIRECTORY}json/JSON.h"
             "${INCLUDE_CORE_DIRECTORY}json/JSON.cpp"
             "${INCLUDE_CORE_DIRECTORY}json/items/JsonItem.h"
+            "${INCLUDE_CORE_DIRECTORY}json/items/CommonItem.h"
+            "${INCLUDE_CORE_DIRECTORY}json/items/CommonItem.cpp"
             "${INCLUDE_CORE_DIRECTORY}json/items/StringItem.h"
             "${INCLUDE_CORE_DIRECTORY}json/items/StringItem.cpp"
             "${INCLUDE_CORE_DIRECTORY}json/items/IntItem.h"

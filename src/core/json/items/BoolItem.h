@@ -7,7 +7,7 @@ public:
     BoolItem(bool value):
         JsonItem<bool>(&value)
         {}
-    virtual std::string toString() override;
-    friend std::ostream& operator<<(std::ostream& out, BoolItem boolItem);
-    friend std::ostream& operator<<(std::ostream& out, BoolItem* boolItem);
+    virtual std::string toString() const override;
+    friend std::ostream& operator<<(std::ostream& out, const BoolItem& boolItem);
+    friend std::ostream& operator<<(std::ostream& out, const BoolItem* boolItem);
 };

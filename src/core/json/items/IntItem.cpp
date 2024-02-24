@@ -1,17 +1,17 @@
 #include "IntItem.h"
 
-std::string IntItem::toString()
+std::string IntItem::toString() const
 {
     return std::to_string(this->getValue());
 }
 
-std::ostream& operator<<(std::ostream& out, IntItem intItem)
+std::ostream& operator<<(std::ostream& out, const IntItem& intItem)
 {
     out << intItem.toString();
     return out;
 }
 
-std::ostream& operator<<(std::ostream& out, IntItem* intItem)
+std::ostream& operator<<(std::ostream& out, const IntItem* intItem)
 {
     out << intItem->toString();
     return out;

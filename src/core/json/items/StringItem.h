@@ -8,7 +8,7 @@ public:
     StringItem(std::string value):
         JsonItem<std::string>(value)
     {}
-    virtual std::string toString() override;
-    friend std::ostream& operator<<(std::ostream& out, StringItem jsonItem);
-    friend std::ostream& operator<<(std::ostream& out, StringItem* jsonItem);
+    virtual std::string toString() const override;
+    friend std::ostream& operator<<(std::ostream& out, const StringItem& jsonItem);
+    friend std::ostream& operator<<(std::ostream& out, const StringItem* jsonItem);
 };
