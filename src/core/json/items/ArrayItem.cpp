@@ -41,7 +41,7 @@ std::string ArrayItem::toString() const
     for (CommonItem item: *this->value)
     {   
         if (typeid(StringItem).hash_code() == item.getType()->hash_code())
-            str += static_cast<StringItem*>(item.getItem())->toString() + ", ";
+            str += "\"" + static_cast<StringItem*>(item.getItem())->toString() + "\", ";
         else if (typeid(ArrayItem).hash_code() == item.getType()->hash_code())
             str += static_cast<ArrayItem*>(item.getItem())->toString() + ", ";
         else if (typeid(BoolItem).hash_code() == item.getType()->hash_code())
