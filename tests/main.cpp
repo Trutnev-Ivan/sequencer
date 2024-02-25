@@ -14,21 +14,18 @@
 
 int main()
 {
-    std::string path = "E:/Project/our-free-sequencer/bin";
-
-    std::tuple<int> t {2};
-
-    //std::vector<std::tuple<int>>* v = new std::vector<std::tuple<int>>;
-    //v->insert(v->begin() + 0, t);
+    std::string path = "E:/Project/our-free-sequencer/bin/test.json";
 
     ArrayItem item;
     ObjectItem* obj = new ObjectItem;
 
+/*
     try
     {
         ArrayItem* subItem = new ArrayItem;
 
-        subItem->push_back<StringItem>(new StringItem("str1"))
+        subItem
+        ->push_back<StringItem>(new StringItem("str1"))
         ->push_back<StringItem>(new StringItem("str2"))
         ->push_back<StringItem>(new StringItem("str3"))
         ->push_back<StringItem>(new StringItem("str4"));
@@ -50,12 +47,12 @@ int main()
 
         //std::cout << item << std::endl;
 
-        /*
-        StringItem* i = item.cast<StringItem>(0);
-        std::cout << i << std::endl;
-        StringItem* i_ = item.cast<StringItem>(1);
-        std::cout << i_ << std::endl;
-        */
+
+        //StringItem* i = item.cast<StringItem>(0);
+        //std::cout << i << std::endl;
+        //StringItem* i_ = item.cast<StringItem>(1);
+        //std::cout << i_ << std::endl;
+ 
 
         std::cout << item << std::endl << std::endl;
         delete subItem;
@@ -68,8 +65,11 @@ int main()
     {
         std::cout << e->what() << std::endl;
     }
+*/
 
     JSON json(path);
+
+
     //ArrayItem item(StringItem(path), FloatItem(10.3), IntItem(3), BoolItem(true));
 
     //std::cout << std::filesystem::exists(path) << std::endl;
