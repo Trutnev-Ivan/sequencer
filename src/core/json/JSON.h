@@ -6,19 +6,10 @@
 #include <iostream>
 #include <stack>
 
-#include "meta/MetaInfo.h"
-#include "meta/ObjectInfo.h"
-#include "meta/ArrayInfo.h"
-#include "meta/ObjectItemInfo.h"
-#include "meta/StringInfo.h"
-#include "meta/NumberInfo.h"
-#include "meta/BoolInfo.h"
+#include "parser/JsonParser.h"
 
 class JSON
 {
-protected:
-    std::stack<MetaInfo*> parsingElement;
-    MetaInfo* topElement;
 public:
     
     JSON(std::string path)
@@ -29,32 +20,13 @@ public:
         if (std::filesystem::path(path).extension() != ".json")
             throw new std::ifstream::failure("File extension must be .json");
 
-        std::ifstream file(path);
+        std::ifstream* file = new std::ifstream(path);
         
-        while (!file.eof())
-        {
-            char c = file.get();
+        JsonParser* parser = new JsonParser(file);
 
-            switch (c)
-            {
-                
-            }
+        file->close();
+        delete file;
 
-            //std::cout << c;
-        }
-
-        //if (this->parsingElement.size())
-        //    throw new std::exception; // TODO: change exception
-
-        ObjectInfo* obj = static_cast<ObjectInfo*>(this->topElement);
-        
-        std::vector<ObjectItemInfo*> items = obj->getItems();
-
-        std::cout << "SIZE: " << items.size() << std::endl;
-
-        std::cout << obj->toString();
-        
-
-        file.close();
+        delete parser;
     }
 };
