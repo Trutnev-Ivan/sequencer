@@ -3,6 +3,7 @@
 #include "JsonParserState.h"
 #include "EndState.h"
 #include "ObjectItemState.h"
+#include "AppendState.h"
 #include "../meta/ObjectItemInfo.h"
 
 class ObjectState: public JsonParserState

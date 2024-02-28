@@ -44,6 +44,11 @@ void ObjectItemState::parseKey(char c)
             this->parsingElement->push(new StringInfo(c));
             return new StringState(this->parsingElement);
         }
+        else if (c == '{')
+        {
+            this->parsingElement->push(new ObjectInfo);
+            return new ObjectState(this->parsingElement);
+        }
 
         //TODO: добавить парсинг для др. типов
     }

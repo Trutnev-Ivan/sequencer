@@ -11,7 +11,9 @@ JsonParserState* ObjectState::next(char c)
                 return new EndState(this->parsingElement);
             else
             {
-                return nullptr;
+                AppendState* appendState = new AppendState(this->parsingElement);
+                return appendState->next(c);
+
                 //TODO: добавить добавление объекта в др. объект или в массив
             }
         }
