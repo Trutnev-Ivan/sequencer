@@ -9,7 +9,13 @@ JsonParserState* ArrayState::next(char c)
     if (std::isspace(c))
         return this;
 
-    if (c == ']')
+    if (c == '[')
+    {
+        this->parsingElement->push(new ArrayItemInfo);
+        this->parsingElement->push(new ArrayInfo);
+        return new ArrayState(this->parsingElement);
+    }
+    else if (c == ']')
     {
         if (this->parsingElement->size() == 1)
             return new EndState(this->parsingElement);
