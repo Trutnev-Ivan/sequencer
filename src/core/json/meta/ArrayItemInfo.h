@@ -1,17 +1,14 @@
 #pragma once
 #include "MetaInfo.h"
-#include <cctype>
 #include <string>
 
-class BoolInfo: public MetaInfo
+class ArrayItemInfo: public MetaInfo
 {
-private:
-    bool isValidChar(char c);
 protected:
-    std::string value;
+    MetaInfo* value;
 public:
     virtual PARSING_ELEMENT getType() override;
-    void appendChar(char c);
-    std::string getValue();
+    void setValue(MetaInfo* value);
+    MetaInfo* getValue();
     virtual std::string toString() override;
 };

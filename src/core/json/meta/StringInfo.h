@@ -10,41 +10,11 @@ protected:
     char prevChar;
     std::string value;
 public:
-    StringInfo(char quoteType)
-    {
-        this->quoteType = quoteType;
-    }
-
-    char getQuoteType()
-    {
-        return this->quoteType;
-    }
-
-    bool isEscaped()
-    {
-        return this->prevChar == '\\';
-    }
-
-    std::string getValue()
-    {
-        return this->value;
-    }
-
-    void appendChar(char c)
-    {
-        if (this->value.length())
-            this->prevChar = this->value[this->value.length() - 1];
-
-        this->value += c;
-    }
-
-    virtual PARSING_ELEMENT getType() override
-    {
-        return PARSING_ELEMENT::STRING;
-    }
-
-    virtual std::string toString() override
-    {
-        return "\"" + this->getValue() + "\"";
-    }
+    StringInfo(char quoteType);
+    char getQuoteType();
+    bool isEscaped();
+    std::string getValue();
+    void appendChar(char c);
+    virtual PARSING_ELEMENT getType() override;
+    virtual std::string toString() override;
 };

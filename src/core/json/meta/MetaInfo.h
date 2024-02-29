@@ -1,10 +1,12 @@
 #pragma once
+#include <string>
 
 enum PARSING_ELEMENT {
         STRING,
         NUMBER,
         BOOL,
         ARRAY,
+        ARRAY_ITEM,
         OBJECT,
         OBJECT_ITEM
     };

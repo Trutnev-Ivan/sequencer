@@ -3,32 +3,22 @@
 #include "JsonParserState.h"
 #include "ObjectItemState.h"
 #include "ObjectState.h"
+#include "ArrayItemState.h"
+#include "ArrayState.h"
 #include "../meta/ObjectItemInfo.h"
 #include "../meta/ObjectInfo.h"
+#include "../meta/ArrayItemInfo.h"
+#include "../meta/ArrayInfo.h"
 
 class AppendState: public JsonParserState
 {
 protected:
     JsonParserState* appendToObject(MetaInfo* metaInfo);
     JsonParserState* appendToObjectItem(MetaInfo* metaInfo);
+    JsonParserState* appendToArrayItem(MetaInfo* metaInfo);
+    JsonParserState* appendToArray(MetaInfo* metaInfo);
+    JsonParserState* append(MetaInfo* metaInfo);
 public:
-    AppendState(std::stack<MetaInfo*>* stack):
-        JsonParserState(stack)
-        {}
-
-    virtual JsonParserState* next(char c) override
-    {
-        MetaInfo* metaInfo = this->parsingElement->top();
-        this->parsingElement->pop();
-
-        // TODO: добавить условие в массив
-
-        switch (metaInfo->getType())
-        {
-            case PARSING_ELEMENT::OBJECT_ITEM:
-                return this->appendToObject(metaInfo);
-            default:
-                return this->appendToObjectItem(metaInfo);
-        }
-    }
+    AppendState(std::stack<MetaInfo*>* stack);
+    virtual JsonParserState* next(char c) override;
 };

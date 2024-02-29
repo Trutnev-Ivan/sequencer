@@ -1,5 +1,9 @@
 #include "ObjectState.h"
 
+ObjectState::ObjectState(std::stack<MetaInfo*>* stack):
+    JsonParserState(stack)
+    {}
+
 JsonParserState* ObjectState::next(char c)
 {
         if (std::isspace(c))
@@ -14,7 +18,7 @@ JsonParserState* ObjectState::next(char c)
                 AppendState* appendState = new AppendState(this->parsingElement);
                 return appendState->next(c);
 
-                //TODO: добавить добавление объекта в др. объект или в массив
+                //TODO: добавить добавление объекта в массив
             }
         }
         else if (c == '\'' || c == '"')

@@ -11,61 +11,15 @@ protected:
     std::string key;
     MetaInfo* value;
 public:
-    ObjectItemInfo(char keyQuotesType)
-    {
-        this->keyQuotesType = keyQuotesType;
-    }
-
-    char getKeyQuotesType()
-    {
-        return this->keyQuotesType;
-    }
-
-    void endKeyParse()
-    {
-        this->keyParsed = true;
-    }
-
-    bool isKeyParsed()
-    {
-        return this->keyParsed;
-    }
-
-    void setValue(MetaInfo* value)
-    {
-        this->value = value;
-    }
-
-    MetaInfo* getValue()
-    {
-        return this->value;
-    }
-
-    void appendToKey(char c)
-    {
-        if (this->key.length())
-            prevKeyChar = this->key[this->key.length() - 1];
-
-        this->key += c;
-    }
-
-    bool isEscaped()
-    {
-        return this->prevKeyChar == '\\';
-    }
-
-    std::string getKey()
-    {
-        return this->key;
-    }
-
-    virtual PARSING_ELEMENT getType() override
-    {
-        return PARSING_ELEMENT::OBJECT_ITEM;
-    }
-
-    virtual std::string toString() override
-    {
-        return "\"" + this->getKey() + "\": " + this->getValue()->toString();
-    }
+    ObjectItemInfo(char keyQuotesType);
+    char getKeyQuotesType();
+    void endKeyParse();
+    bool isKeyParsed();
+    void setValue(MetaInfo* value);
+    MetaInfo* getValue();
+    void appendToKey(char c);
+    bool isEscaped();
+    std::string getKey();
+    virtual PARSING_ELEMENT getType() override;
+    virtual std::string toString() override;
 };

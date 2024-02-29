@@ -9,9 +9,6 @@
 class ObjectState: public JsonParserState
 {
 public:
-    ObjectState(std::stack<MetaInfo*>* stack):
-        JsonParserState(stack)
-        {}
-
+    ObjectState(std::stack<MetaInfo*>* stack);
     virtual JsonParserState* next(char c) override;
 };

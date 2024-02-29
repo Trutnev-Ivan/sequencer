@@ -8,6 +8,8 @@
 class StartState;
 class ObjectState;
 class ObjectItemState;
+class ArrayState;
+class ArrayItemState;
 class StringState;
 class AppendState;
 class EndState;
@@ -18,18 +20,7 @@ protected:
     std::stack<MetaInfo*>* parsingElement;
     MetaInfo* topElement;
 public:
-    JsonParserState(std::stack<MetaInfo*>* stack)
-    {
-        this->parsingElement = stack;
-    }
-
-    virtual JsonParserState* next(char c)
-    {
-        return nullptr;
-    };
-
-    MetaInfo* getTopElement()
-    {
-        return this->topElement;
-    }
+    JsonParserState(std::stack<MetaInfo*>* stack);
+    virtual JsonParserState* next(char c);
+    MetaInfo* getTopElement();
 };

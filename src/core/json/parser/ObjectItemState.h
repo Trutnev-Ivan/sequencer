@@ -5,8 +5,10 @@
 #include "JsonParserState.h"
 #include "StringState.h"
 #include "AppendState.h"
+#include "ArrayState.h"
 #include "../meta/ObjectItemInfo.h"
 #include "../meta/StringInfo.h"
+#include "../meta/ArrayInfo.h"
 
 class ObjectItemState: public JsonParserState
 {
@@ -21,38 +23,6 @@ protected:
     JsonParserState* parseEnd(char c);
 
 public:
-    ObjectItemState(std::stack<MetaInfo*>* stack):
-        JsonParserState(stack)
-        {
-            ObjectItemInfo* objectItemInfo = static_cast<ObjectItemInfo*>(this->parsingElement->top());
-
-            if (objectItemInfo->getValue() != nullptr)
-            {
-                isFilledKey = true;
-                isFilledValue = true;
-                hasDelimiter = true;
-            }
-        }
-
-    virtual JsonParserState* next(char c) override
-    {
-        if (!isFilledKey)
-        {
-            parseKey(c);
-            return this;
-        }
-        else if (!hasDelimiter)
-        {
-            parseDelimiter(c);
-            return this;
-        }
-        else if (!isFilledValue)
-        {
-            return parseValue(c);
-        }
-        else
-        {
-            return parseEnd(c);
-        }
-    }
+    ObjectItemState(std::stack<MetaInfo*>* stack);
+    virtual JsonParserState* next(char c) override;
 };

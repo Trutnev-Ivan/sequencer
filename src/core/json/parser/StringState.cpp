@@ -1,6 +1,9 @@
 #include "StringState.h"
-
 #include <iostream>
+
+StringState::StringState(std::stack<MetaInfo*>* stack):
+    JsonParserState(stack)
+    {}
 
 JsonParserState* StringState::next(char c)
     {

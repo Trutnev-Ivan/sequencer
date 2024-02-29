@@ -1,5 +1,40 @@
 #include "ObjectItemState.h"
 
+ObjectItemState::ObjectItemState(std::stack<MetaInfo*>* stack):
+    JsonParserState(stack)
+    {
+        ObjectItemInfo* objectItemInfo = static_cast<ObjectItemInfo*>(this->parsingElement->top());
+
+        if (objectItemInfo->getValue() != nullptr)
+        {
+            isFilledKey = true;
+            isFilledValue = true;
+            hasDelimiter = true;
+        }
+    }
+
+JsonParserState* ObjectItemState::next(char c)
+{
+    if (!isFilledKey)
+    {
+        parseKey(c);
+        return this;
+    }
+    else if (!hasDelimiter)
+    {
+        parseDelimiter(c);
+    return this;
+    }
+    else if (!isFilledValue)
+    {
+        return parseValue(c);
+    }
+    else
+    {
+        return parseEnd(c);
+    }
+}
+
 void ObjectItemState::parseKey(char c)
     {
         ObjectItemInfo* objectItemInfo = static_cast<ObjectItemInfo*>(this->parsingElement->top());
@@ -48,6 +83,11 @@ void ObjectItemState::parseKey(char c)
         {
             this->parsingElement->push(new ObjectInfo);
             return new ObjectState(this->parsingElement);
+        }
+        else if (c == '[')
+        {
+            this->parsingElement->push(new ArrayInfo);
+            return new ArrayState(this->parsingElement);
         }
 
         //TODO: добавить парсинг для др. типов
