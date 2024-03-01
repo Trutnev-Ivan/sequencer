@@ -4,6 +4,11 @@ ArrayState::ArrayState(std::stack<MetaInfo*>* stack):
     JsonParserState(stack)
     {}
 
+void ArrayState::mustNextElement()
+{
+    this->isMustNextElement = true;
+}
+
 JsonParserState* ArrayState::next(char c)
 {
     if (std::isspace(c))
@@ -17,6 +22,9 @@ JsonParserState* ArrayState::next(char c)
     }
     else if (c == ']')
     {
+        if (this->isMustNextElement)
+            throw new std::runtime_error("Must next element"); // TODO: change error type
+
         if (this->parsingElement->size() == 1)
             return new EndState(this->parsingElement);
         else

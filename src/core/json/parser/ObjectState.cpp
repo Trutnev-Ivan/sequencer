@@ -4,6 +4,11 @@ ObjectState::ObjectState(std::stack<MetaInfo*>* stack):
     JsonParserState(stack)
     {}
 
+void ObjectState::mustNextElem()
+{
+    this->isMustNextElem = true;
+}
+
 JsonParserState* ObjectState::next(char c)
 {
         if (std::isspace(c))
@@ -11,6 +16,9 @@ JsonParserState* ObjectState::next(char c)
 
         if (c == '}')
         {
+            if (this->isMustNextElem)
+                throw new std::runtime_error("Must next elem"); // TODO: change error type
+
             if (this->parsingElement->size() == 1)
                 return new EndState(this->parsingElement);
             else

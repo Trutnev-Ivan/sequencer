@@ -8,7 +8,10 @@
 
 class ObjectState: public JsonParserState
 {
+protected:
+    bool isMustNextElem = false;
 public:
     ObjectState(std::stack<MetaInfo*>* stack);
     virtual JsonParserState* next(char c) override;
+    void mustNextElem();
 };

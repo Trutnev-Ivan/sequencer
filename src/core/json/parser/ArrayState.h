@@ -11,7 +11,10 @@
 
 class ArrayState: public JsonParserState
 {
+protected:
+    bool isMustNextElement = false;
 public:
     ArrayState(std::stack<MetaInfo*>* stack);
     virtual JsonParserState* next(char c) override;
+    void mustNextElement();
 };

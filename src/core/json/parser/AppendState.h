@@ -13,10 +13,10 @@
 class AppendState: public JsonParserState
 {
 protected:
-    JsonParserState* appendToObject(MetaInfo* metaInfo);
+    JsonParserState* appendToObject(MetaInfo* metaInfo, bool mustNextElem);
     JsonParserState* appendToObjectItem(MetaInfo* metaInfo);
     JsonParserState* appendToArrayItem(MetaInfo* metaInfo);
-    JsonParserState* appendToArray(MetaInfo* metaInfo);
+    JsonParserState* appendToArray(MetaInfo* metaInfo, bool mustNextElem);
     JsonParserState* append(MetaInfo* metaInfo);
 public:
     AppendState(std::stack<MetaInfo*>* stack);

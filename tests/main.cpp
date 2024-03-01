@@ -67,14 +67,7 @@ int main()
     }
 */
 
-try
-{
     JSON json(path);
-}
-catch(const std::runtime_error* e)
-{
-    std::cerr << e->what() << '\n';
-}
 
 
     //ArrayItem item(StringItem(path), FloatItem(10.3), IntItem(3), BoolItem(true));

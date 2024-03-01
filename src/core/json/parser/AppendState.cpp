@@ -14,22 +14,26 @@ JsonParserState* AppendState::next(char c)
     switch (metaInfo->getType())
     {
         case PARSING_ELEMENT::OBJECT_ITEM:
-            return this->appendToObject(metaInfo);
+            return this->appendToObject(metaInfo, c==',');
         case PARSING_ELEMENT::ARRAY_ITEM:
-            return this->appendToArray(metaInfo);
+            return this->appendToArray(metaInfo, c==',');
         default:
             return this->append(metaInfo);
     }
 }
 
-JsonParserState* AppendState::appendToObject(MetaInfo* metaInfo)
+JsonParserState* AppendState::appendToObject(MetaInfo* metaInfo, bool mustNextElem)
 {
     ObjectItemInfo* objectItemInfo = static_cast<ObjectItemInfo*>(metaInfo);
     ObjectInfo* objectInfo = static_cast<ObjectInfo*>(this->parsingElement->top());
 
     objectInfo->appendItem(objectItemInfo);
+    ObjectState* objectState = new ObjectState(this->parsingElement);
+    
+    if (mustNextElem)
+        objectState->mustNextElem();
 
-    return new ObjectState(this->parsingElement);
+    return objectState;
 }
 
 JsonParserState* AppendState::appendToObjectItem(MetaInfo* metaInfo)
@@ -61,12 +65,17 @@ JsonParserState* AppendState::append(MetaInfo* metaInfo)
     }
 }
 
-JsonParserState* AppendState::appendToArray(MetaInfo* metaInfo)
+JsonParserState* AppendState::appendToArray(MetaInfo* metaInfo, bool mustNextElem)
 {
     ArrayItemInfo* arrayItemInfo = static_cast<ArrayItemInfo*>(metaInfo);
     ArrayInfo* arrayInfo = static_cast<ArrayInfo*>(this->parsingElement->top());
 
     arrayInfo->append(arrayItemInfo);
 
-    return new ArrayState(this->parsingElement);
+    ArrayState* arrayState = new ArrayState(this->parsingElement);
+
+    if (mustNextElem)
+        arrayState->mustNextElement();
+
+    return arrayState;
 }
