@@ -39,6 +39,13 @@ JsonParserState* ArrayState::next(char c)
         this->parsingElement->push(new ObjectInfo);
         return new ObjectState(this->parsingElement);
     }
+    else if (std::isdigit(c))
+    {
+        this->parsingElement->push(new ArrayItemInfo);
+        this->parsingElement->push(new NumberInfo);
+        NumberState* numberState = new NumberState(this->parsingElement);
+        return numberState->next(c);
+    }
     else
     {
         throw new std::runtime_error("Invalid array parsing char: " + c); // TODO: change exception

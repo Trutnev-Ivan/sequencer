@@ -54,6 +54,8 @@ add_library(json
             "${INCLUDE_CORE_DIRECTORY}json/parser/EndState.cpp"
             "${INCLUDE_CORE_DIRECTORY}json/parser/JsonParser.h"
             "${INCLUDE_CORE_DIRECTORY}json/parser/JsonParser.cpp"
+            "${INCLUDE_CORE_DIRECTORY}json/parser/NumberState.h"
+            "${INCLUDE_CORE_DIRECTORY}json/parser/NumberState.cpp"
             "${INCLUDE_CORE_DIRECTORY}json/parser/JsonParserState.h"
             "${INCLUDE_CORE_DIRECTORY}json/parser/JsonParserState.cpp"
             "${INCLUDE_CORE_DIRECTORY}json/parser/ObjectItemState.h"

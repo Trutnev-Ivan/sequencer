@@ -23,7 +23,7 @@ JsonParserState* ObjectItemState::next(char c)
     else if (!hasDelimiter)
     {
         parseDelimiter(c);
-    return this;
+        return this;
     }
     else if (!isFilledValue)
     {
@@ -88,6 +88,12 @@ void ObjectItemState::parseKey(char c)
         {
             this->parsingElement->push(new ArrayInfo);
             return new ArrayState(this->parsingElement);
+        }
+        else if (std::isdigit(c))
+        {
+            this->parsingElement->push(new NumberInfo);
+            NumberState* numberState = new NumberState(this->parsingElement);
+            return numberState->next(c);
         }
 
         //TODO: добавить парсинг для др. типов

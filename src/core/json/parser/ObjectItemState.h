@@ -6,9 +6,11 @@
 #include "StringState.h"
 #include "AppendState.h"
 #include "ArrayState.h"
+#include "NumberState.h"
 #include "../meta/ObjectItemInfo.h"
 #include "../meta/StringInfo.h"
 #include "../meta/ArrayInfo.h"
+#include "../meta/NumberInfo.h"
 
 class ObjectItemState: public JsonParserState
 {

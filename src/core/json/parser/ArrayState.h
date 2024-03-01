@@ -3,9 +3,11 @@
 #include "EndState.h"
 #include "StringState.h"
 #include "ObjectState.h"
+#include "NumberState.h"
 #include "../meta/ArrayItemInfo.h"
 #include "../meta/StringInfo.h"
 #include "../meta/ObjectInfo.h"
+#include "../meta/NumberInfo.h"
 
 class ArrayState: public JsonParserState
 {
