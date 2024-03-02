@@ -31,10 +31,8 @@ JsonParserState* ArrayState::next(char c)
         {
             AppendState* appendState = new AppendState(this->parsingElement);
             return appendState->next(c);
-
-            //TODO добавить добавление в др. массив или объект
         }
-    } // TODO добавить обработку элементов массива
+    }
     else if (c == '\'' || c == '"')
     {
         this->parsingElement->push(new ArrayItemInfo);
@@ -53,6 +51,13 @@ JsonParserState* ArrayState::next(char c)
         this->parsingElement->push(new NumberInfo);
         NumberState* numberState = new NumberState(this->parsingElement);
         return numberState->next(c);
+    }
+    else if (c == 't' || c == 'f')
+    {
+        this->parsingElement->push(new ArrayItemInfo);
+        this->parsingElement->push(new BoolInfo);
+        BoolState* boolState = new BoolState(this->parsingElement);
+        return boolState->next(c);
     }
     else
     {

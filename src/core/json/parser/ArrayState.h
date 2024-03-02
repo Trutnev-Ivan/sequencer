@@ -4,10 +4,12 @@
 #include "StringState.h"
 #include "ObjectState.h"
 #include "NumberState.h"
+#include "BoolState.h"
 #include "../meta/ArrayItemInfo.h"
 #include "../meta/StringInfo.h"
 #include "../meta/ObjectInfo.h"
 #include "../meta/NumberInfo.h"
+#include "../meta/BoolInfo.h"
 
 class ArrayState: public JsonParserState
 {

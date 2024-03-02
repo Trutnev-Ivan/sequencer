@@ -63,6 +63,8 @@ JsonParserState* AppendState::append(MetaInfo* metaInfo)
         case PARSING_ELEMENT::ARRAY_ITEM:
             return this->appendToArrayItem(metaInfo);
     }
+
+    throw new std::runtime_error("Error append type"); // TODO: change error type
 }
 
 JsonParserState* AppendState::appendToArray(MetaInfo* metaInfo, bool mustNextElem)

@@ -95,8 +95,14 @@ void ObjectItemState::parseKey(char c)
             NumberState* numberState = new NumberState(this->parsingElement);
             return numberState->next(c);
         }
+        else if (c == 't' || c == 'f')
+        {
+            this->parsingElement->push(new BoolInfo);
+            BoolState* boolState = new BoolState(this->parsingElement);
+            return boolState->next(c);
+        }
 
-        //TODO: добавить парсинг для др. типов
+        throw new std::runtime_error("Invalid char parse: " + c); // TODO: cahnge error type
     }
 
     JsonParserState* ObjectItemState::parseEnd(char c)
