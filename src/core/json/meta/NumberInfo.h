@@ -1,7 +1,6 @@
 #pragma once
 #include "MetaInfo.h"
 #include <string>
-#include <stdexcept>
 
 class NumberInfo: public MetaInfo
 {

@@ -9,8 +9,6 @@ JsonParserState* AppendState::next(char c)
     MetaInfo* metaInfo = this->parsingElement->top();
     this->parsingElement->pop();
 
-    // TODO: добавить условие в массив
-
     switch (metaInfo->getType())
     {
         case PARSING_ELEMENT::OBJECT_ITEM:
@@ -64,7 +62,7 @@ JsonParserState* AppendState::append(MetaInfo* metaInfo)
             return this->appendToArrayItem(metaInfo);
     }
 
-    throw new std::runtime_error("Error append type"); // TODO: change error type
+    throw JsonAppendStateException();
 }
 
 JsonParserState* AppendState::appendToArray(MetaInfo* metaInfo, bool mustNextElem)

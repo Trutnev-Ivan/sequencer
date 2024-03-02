@@ -8,7 +8,7 @@ PARSING_ELEMENT NumberInfo::getType()
 void NumberInfo::appendChar(char c)
 {
     if (!std::isdigit(c) && c != '.')
-        throw new std::runtime_error("Number info invalid char: " + c); //TODO: change excpetion
+        throw JsonParseException(c);
 
     this->value += c;
 }

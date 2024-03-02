@@ -19,8 +19,6 @@ JsonParserState* StartState::next(char c)
         this->parsingElement->push(new ArrayInfo);
         return new ArrayState(this->parsingElement);
     }
-    else
-    {
-        throw new std::runtime_error("Invalid start char: "+ c); // TODO: change exception
-    }
+    
+    throw JsonParseException(c);
 };

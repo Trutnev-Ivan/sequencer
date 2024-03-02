@@ -12,5 +12,5 @@ JsonParserState* EndState::next(char c)
     if (std::isspace(c) || c == EOF)
         return this;
 
-    throw new std::runtime_error("Invalid end char: " + c); // TODO: change error
+    throw JsonParseException(c);
 }

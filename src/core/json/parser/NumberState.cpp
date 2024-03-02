@@ -16,7 +16,7 @@ JsonParserState* NumberState::next(char c)
     else if (c == '.')
     {
         if (this->hasPoint)
-            throw new std::runtime_error("Point parsed error"); // TODO: change error
+            throw JsonNumberPointException();
 
         this->hasPoint = true;
         numberInfo->appendChar(c);
@@ -30,8 +30,6 @@ JsonParserState* NumberState::next(char c)
         delete appendState;
         return next->next(c);
     }
-    else
-    {
-        throw new std::runtime_error("Number parse error char: " + c); // TODO: change error
-    }
+    
+    throw JsonParseException(c);
 }

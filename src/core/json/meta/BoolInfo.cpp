@@ -33,13 +33,13 @@ PARSING_ELEMENT BoolInfo::getType()
 
 void BoolInfo::appendChar(char c)
 {
-    if ((this->value.length() == 4 || this->value.length() == 5)
+    if ((this->value.length() == BoolInfo::TRUE_LENGTH || this->value.length() == BoolInfo::FALSE_LENGTH)
         && (std::isspace(c) || c == '\n'))
     {}
     else
     {
         if (!isValidChar(c))
-            throw new std::exception; // TODO: change exception
+            throw JsonParseException(c);
 
         value += c;
     }        

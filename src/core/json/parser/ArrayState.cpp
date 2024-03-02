@@ -23,7 +23,7 @@ JsonParserState* ArrayState::next(char c)
     else if (c == ']')
     {
         if (this->isMustNextElement)
-            throw new std::runtime_error("Must next element"); // TODO: change error type
+            throw JsonEmptyNextElementException();
 
         if (this->parsingElement->size() == 1)
             return new EndState(this->parsingElement);
@@ -59,8 +59,6 @@ JsonParserState* ArrayState::next(char c)
         BoolState* boolState = new BoolState(this->parsingElement);
         return boolState->next(c);
     }
-    else
-    {
-        throw new std::runtime_error("Invalid array parsing char: " + c); // TODO: change exception
-    }
+    
+    throw JsonParseException(c);
 }

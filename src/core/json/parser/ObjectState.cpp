@@ -11,31 +11,27 @@ void ObjectState::mustNextElem()
 
 JsonParserState* ObjectState::next(char c)
 {
-        if (std::isspace(c))
-            return this;
+    if (std::isspace(c))
+        return this;
 
-        if (c == '}')
-        {
-            if (this->isMustNextElem)
-                throw new std::runtime_error("Must next elem"); // TODO: change error type
+    if (c == '}')
+    {
+        if (this->isMustNextElem)
+            throw JsonEmptyNextElementException();
 
-            if (this->parsingElement->size() == 1)
-                return new EndState(this->parsingElement);
-            else
-            {
-                AppendState* appendState = new AppendState(this->parsingElement);
-                return appendState->next(c);
-
-                //TODO: добавить добавление объекта в массив
-            }
-        }
-        else if (c == '\'' || c == '"')
-        {
-            this->parsingElement->push(new ObjectItemInfo(c));
-            return new ObjectItemState(this->parsingElement);
-        }
+        if (this->parsingElement->size() == 1)
+            return new EndState(this->parsingElement);
         else
         {
-            throw new std::runtime_error("Object parser ivalid char: " + c); // TODO: заменить 
+            AppendState* appendState = new AppendState(this->parsingElement);
+            return appendState->next(c);
         }
+    }
+    else if (c == '\'' || c == '"')
+    {
+        this->parsingElement->push(new ObjectItemInfo(c));
+        return new ObjectItemState(this->parsingElement);
+    }
+    
+    throw JsonParseException(c);
 }

@@ -37,7 +37,7 @@ public:
     ArrayItem* push_back(T* value)
     {
         if (!this->isInstanceOfJsonItem<T>())
-            throw new JsonTypeException;
+            throw JsonTypeException();
 
         CommonItem item;
         item.init<T>(value);
@@ -52,7 +52,7 @@ public:
         CommonItem item = this->get(index);
               
         if (typeid(T).hash_code() != item.getType()->hash_code())
-            throw new JsonCastTypeException;
+            throw JsonCastTypeException();
 
         return static_cast<T*>(item.getItem());
     }
@@ -61,7 +61,7 @@ public:
     ArrayItem* insert(int index, T* value)
     {
         if (!this->isInstanceOfJsonItem<T>())
-            throw new JsonTypeException;
+            throw JsonTypeException();
 
         CommonItem item;
         item.init<T>(value);
@@ -74,7 +74,7 @@ public:
     T* pop()
     {
         if (!this->isInstanceOfJsonItem<T>())
-            throw new JsonCastTypeException;
+            throw JsonCastTypeException();
 
         T* item = this->cast<T>(this->getLength() - 1);
         this->value->pop_back();

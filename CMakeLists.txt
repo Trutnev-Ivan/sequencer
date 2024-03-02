@@ -69,10 +69,23 @@ add_library(json
             "${INCLUDE_CORE_DIRECTORY}json/parser/StringState.h"
             "${INCLUDE_CORE_DIRECTORY}json/parser/StringState.cpp"
 
-            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonTypeException.h"
-            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonTypeException.cpp"
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonAppendStateException.h"
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonAppendStateException.cpp"
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonArrayItemStateException.h"
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonArrayItemStateException.cpp"
             "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonCastTypeException.h"
-            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonCastTypeException.cpp")
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonCastTypeException.cpp"
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonEmptyNextElementException.h"
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonEmptyNextElementException.cpp"
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonException.h"
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonNumberPointException.h"
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonNumberPointException.cpp"
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonObjectItemDelimiterException.h"
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonObjectItemDelimiterException.cpp"
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonParseException.h"
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonParseException.cpp"
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonTypeException.h"
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonTypeException.cpp")
 
 if(TEST)
     add_executable(test "tests/main.cpp")

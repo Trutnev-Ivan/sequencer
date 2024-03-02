@@ -36,96 +36,96 @@ JsonParserState* ObjectItemState::next(char c)
 }
 
 void ObjectItemState::parseKey(char c)
-    {
-        ObjectItemInfo* objectItemInfo = static_cast<ObjectItemInfo*>(this->parsingElement->top());
+{
+    ObjectItemInfo* objectItemInfo = static_cast<ObjectItemInfo*>(this->parsingElement->top());
 
-        if (objectItemInfo->getKeyQuotesType() == c)
-        {
-            if (objectItemInfo->isEscaped())
-                objectItemInfo->appendToKey(c);
-            else
-            {
-                objectItemInfo->endKeyParse();
-                isFilledKey = true;
-            }
-        }
+    if (objectItemInfo->getKeyQuotesType() == c)
+    {
+        if (objectItemInfo->isEscaped())
+            objectItemInfo->appendToKey(c);
         else
         {
-            objectItemInfo->appendToKey(c);
+            objectItemInfo->endKeyParse();
+            isFilledKey = true;
         }
     }
-
-    void ObjectItemState::parseDelimiter(char c)
+    else
     {
-        if (std::isspace(c))
-            return;
+        objectItemInfo->appendToKey(c);
+    }
+}
+
+void ObjectItemState::parseDelimiter(char c)
+{
+    if (std::isspace(c))
+        return;
         
-        if (c == ':')
-        {
-            hasDelimiter = true;
-            return;
-        }
+    if (c == ':')
+    {
+        hasDelimiter = true;
+        return;
+    }
         
-        throw new std::runtime_error("Error parsing delimiter char: " + c); // TODO: change error type
-    }
+    throw JsonObjectItemDelimiterException();
+}
 
-    JsonParserState* ObjectItemState::parseValue(char c)
+JsonParserState* ObjectItemState::parseValue(char c)
+{
+    if (std::isspace(c))
+        return this;
+
+    if (c == '\'' || c == '"')
     {
-        if (std::isspace(c))
-            return this;
-
-        if (c == '\'' || c == '"')
-        {
-            this->parsingElement->push(new StringInfo(c));
-            return new StringState(this->parsingElement);
-        }
-        else if (c == '{')
-        {
-            this->parsingElement->push(new ObjectInfo);
-            return new ObjectState(this->parsingElement);
-        }
-        else if (c == '[')
-        {
-            this->parsingElement->push(new ArrayInfo);
-            return new ArrayState(this->parsingElement);
-        }
-        else if (std::isdigit(c))
-        {
-            this->parsingElement->push(new NumberInfo);
-            NumberState* numberState = new NumberState(this->parsingElement);
-            return numberState->next(c);
-        }
-        else if (c == 't' || c == 'f')
-        {
-            this->parsingElement->push(new BoolInfo);
-            BoolState* boolState = new BoolState(this->parsingElement);
-            return boolState->next(c);
-        }
-
-        throw new std::runtime_error("Invalid char parse: " + c); // TODO: cahnge error type
+        this->parsingElement->push(new StringInfo(c));
+        return new StringState(this->parsingElement);
     }
-
-    JsonParserState* ObjectItemState::parseEnd(char c)
+    else if (c == '{')
     {
-        if (std::isspace(c))
-            return this;
-
-        if (c == ',')
-        {
-            AppendState* appendState = new AppendState(this->parsingElement);
-            JsonParserState* next = appendState->next(c);
-
-            delete appendState;
-            return next;
-        }
-        else if (c == '}')
-        {
-            AppendState* appendState = new AppendState(this->parsingElement);
-            JsonParserState* next = appendState->next(c);
-
-            delete appendState;
-            return next->next(c);
-        }
-
-        throw new std::runtime_error("Error end parsing obj item: " + c); // TODO: change error type
+        this->parsingElement->push(new ObjectInfo);
+        return new ObjectState(this->parsingElement);
     }
+    else if (c == '[')
+    {
+        this->parsingElement->push(new ArrayInfo);
+        return new ArrayState(this->parsingElement);
+    }
+    else if (std::isdigit(c))
+    {
+        this->parsingElement->push(new NumberInfo);
+        NumberState* numberState = new NumberState(this->parsingElement);
+        return numberState->next(c);
+    }
+    else if (c == 't' || c == 'f')
+    {
+        this->parsingElement->push(new BoolInfo);
+        BoolState* boolState = new BoolState(this->parsingElement);
+        return boolState->next(c);
+    }
+
+    throw JsonParseException(c);
+}
+
+JsonParserState* ObjectItemState::parseEnd(char c)
+{
+    if (std::isspace(c))
+        return this;
+
+    if (c == ',')
+    {
+        AppendState* appendState = new AppendState(this->parsingElement);
+        JsonParserState* next = appendState->next(c);
+
+        delete appendState;
+        return next;
+    }
+    else if (c == '}')
+    {
+        AppendState* appendState = new AppendState(this->parsingElement);
+        JsonParserState* next = appendState->next(c);
+
+        delete appendState;
+        return next->next(c);
+    }
+
+    throw JsonParseException(c);
+}

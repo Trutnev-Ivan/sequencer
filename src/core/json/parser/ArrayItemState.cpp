@@ -4,7 +4,7 @@ ArrayItemState::ArrayItemState(std::stack<MetaInfo*>* stack):
     JsonParserState(stack)
     {
         if (this->parsingElement->top()->getType() != PARSING_ELEMENT::ARRAY_ITEM)
-            throw new std::runtime_error("No array item"); // TODO: change error
+            throw JsonArrayItemStateException();
     }
 
 JsonParserState* ArrayItemState::next(char c) 
@@ -28,8 +28,6 @@ JsonParserState* ArrayItemState::next(char c)
         delete appendState;
         return next->next(c);
     }
-    else
-    {
-        throw new std::runtime_error("Invalid array item char: " + c); // TODO: change error
-    }
+    
+    throw JsonParseException(c);
 }

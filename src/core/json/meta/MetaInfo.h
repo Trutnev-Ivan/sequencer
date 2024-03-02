@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "../exceptions/JsonParseException.h"
 
 enum PARSING_ELEMENT {
         STRING,
