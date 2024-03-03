@@ -9,6 +9,7 @@
 #include "../exceptions/JsonEmptyNextElementException.h"
 #include "../exceptions/JsonNumberPointException.h"
 #include "../exceptions/JsonObjectItemDelimiterException.h"
+#include "../exceptions/JsonTopElementException.h"
 
 class StartState;
 class ObjectState;

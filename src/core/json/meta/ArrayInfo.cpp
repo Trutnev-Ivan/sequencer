@@ -23,3 +23,13 @@ std::string ArrayInfo::toString()
 
     return str;
 }
+
+int ArrayInfo::size()
+{
+    return this->items.size();
+}
+
+ArrayItemInfo* ArrayInfo::operator[](int index)
+{
+    return this->items[index];
+}

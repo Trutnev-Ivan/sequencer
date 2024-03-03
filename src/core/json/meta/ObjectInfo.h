@@ -12,4 +12,6 @@ public:
     void appendItem(ObjectItemInfo* item);
     std::vector<ObjectItemInfo*> getItems();
     virtual std::string toString() override;
+    int size();
+    ObjectItemInfo* operator[](int index);
 };

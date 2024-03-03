@@ -22,3 +22,8 @@ std::string NumberInfo::toString()
 {
     return this->getValue();
 }
+
+bool NumberInfo::isFloat()
+{
+    return this->value.find('.') != std::string::npos;
+}

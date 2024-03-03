@@ -1,24 +1,14 @@
 #include <cstdlib>
 #include <iostream>
 #include <filesystem>
+#include <fstream>
 #include <json/JSON.h>
-#include <json/items/ArrayItem.h>
-#include <json/items/IntItem.h>
-#include <json/items/FloatItem.h>
-#include <json/items/BoolItem.h>
-#include <json/items/StringItem.h>
-#include <json/items/ObjectItem.h>
 
 #include <vector>
 #include <tuple>
 
 int main()
 {
-    std::string path = "E:/Project/our-free-sequencer/bin/test.json";
-
-    ArrayItem item;
-    ObjectItem* obj = new ObjectItem;
-
 /*
     try
     {
@@ -67,14 +57,15 @@ int main()
     }
 */
 
-try
-{
-    JSON json(path);
-}
-catch (std::runtime_error* er)
-{
-    std::cout << er->what() << std::endl;
-}
+    std::string path = "E:/Project/our-free-sequencer/bin/test.json";
+    
+    //JSON json(path);
+    JSON json;
+    std::ifstream file(path);
+    file >> json;
+    
+    std::cout << json.cast<ObjectItem>(1)->cast<ArrayItem>("ar") << std::endl;
+    //out.close();
 
 
     //ArrayItem item(StringItem(path), FloatItem(10.3), IntItem(3), BoolItem(true));
@@ -82,8 +73,6 @@ catch (std::runtime_error* er)
     //std::cout << std::filesystem::exists(path) << std::endl;
     //std::cout << ::static_cast<JsonItem>(vec[0]) << std::endl;
     std::cin.get();
-
-    delete obj;
 
     return EXIT_SUCCESS;
 }

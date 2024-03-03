@@ -38,23 +38,28 @@ std::string ArrayItem::toString() const
 {
     std::string str = "[";
 
-    for (CommonItem item: *this->value)
+    for (int i = 0; i < this->value->size(); ++i)
     {   
+        CommonItem item = this->value->at(i);
+
         if (typeid(StringItem).hash_code() == item.getType()->hash_code())
-            str += "\"" + static_cast<StringItem*>(item.getItem())->toString() + "\", ";
+            str += "\"" + static_cast<StringItem*>(item.getItem())->toString() + "\"";
         else if (typeid(ArrayItem).hash_code() == item.getType()->hash_code())
-            str += static_cast<ArrayItem*>(item.getItem())->toString() + ", ";
+            str += static_cast<ArrayItem*>(item.getItem())->toString();
         else if (typeid(BoolItem).hash_code() == item.getType()->hash_code())
-            str += static_cast<BoolItem*>(item.getItem())->toString() + ", ";
+            str += static_cast<BoolItem*>(item.getItem())->toString();
         else if (typeid(FloatItem).hash_code() == item.getType()->hash_code())
-            str += static_cast<FloatItem*>(item.getItem())->toString() + ", ";
+            str += static_cast<FloatItem*>(item.getItem())->toString();
         else if (typeid(IntItem).hash_code() == item.getType()->hash_code())
-            str += static_cast<IntItem*>(item.getItem())->toString() + ", ";
+            str += static_cast<IntItem*>(item.getItem())->toString();
         else if (typeid(ObjectItem).hash_code() == item.getType()->hash_code())
-            str += static_cast<ObjectItem*>(item.getItem())->toString() + ", ";
+            str += static_cast<ObjectItem*>(item.getItem())->toString();
+
+        if (i != this->value->size() - 1)
+            str += ", ";
     }
     
-    str += "\b\b]";
+    str += "]";
 
     return str;
 }

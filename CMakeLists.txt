@@ -84,6 +84,8 @@ add_library(json
             "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonObjectItemDelimiterException.cpp"
             "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonParseException.h"
             "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonParseException.cpp"
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonTopElementException.h"
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonTopElementException.cpp"
             "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonTypeException.h"
             "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonTypeException.cpp")
 

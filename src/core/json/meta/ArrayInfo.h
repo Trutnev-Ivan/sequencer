@@ -11,4 +11,6 @@ public:
     virtual PARSING_ELEMENT getType() override;
     void append(ArrayItemInfo* item);
     virtual std::string toString() override;
+    int size();
+    ArrayItemInfo* operator[](int index);
 };

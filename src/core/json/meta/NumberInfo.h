@@ -11,4 +11,5 @@ public:
     void appendChar(char c);
     std::string getValue();
     virtual std::string toString() override;
+    bool isFloat();
 };

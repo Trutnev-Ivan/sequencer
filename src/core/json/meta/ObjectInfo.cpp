@@ -27,3 +27,13 @@ std::string ObjectInfo::toString()
     str += "}";
     return str;
 }
+
+int ObjectInfo::size()
+{
+    return this->items.size();
+}
+
+ObjectItemInfo* ObjectInfo::operator[](int index)
+{
+    return this->items[index];
+}
