@@ -1,33 +1,36 @@
 #include "StringState.h"
 #include <iostream>
 
-StringState::StringState(std::stack<MetaInfo*>* stack):
-    JsonParserState(stack)
-    {}
-
-JsonParserState* StringState::next(char c)
+namespace json
 {
-    StringInfo* stringInfo = static_cast<StringInfo*>(this->parsingElement->top());
-
-    if (stringInfo->getQuoteType() == c)
+    StringState::StringState(std::stack<MetaInfo*>* stack):
+        JsonParserState(stack)
+        {}
+    
+    JsonParserState* StringState::next(char c)
     {
-        if (stringInfo->isEscaped())
+        StringInfo* stringInfo = static_cast<StringInfo*>(this->parsingElement->top());
+
+        if (stringInfo->getQuoteType() == c)
+        {
+            if (stringInfo->isEscaped())
+            {
+                stringInfo->appendChar(c);
+                return this;
+            }
+            else
+            {
+                AppendState* appendState = new AppendState(this->parsingElement);
+                JsonParserState* next = appendState->next(c);
+    
+                delete appendState;
+                return next;
+            }
+        }
+        else
         {
             stringInfo->appendChar(c);
             return this;
         }
-        else
-        {
-            AppendState* appendState = new AppendState(this->parsingElement);
-            JsonParserState* next = appendState->next(c);
-
-            delete appendState;
-            return next;
-        }
-    }
-    else
-    {
-        stringInfo->appendChar(c);
-        return this;
     }
 }

@@ -15,21 +15,24 @@
 
 #include "StartState.h"
 
-class JsonParser
+namespace json
 {
-protected:
-    MetaInfo* topElement;
-    std::stack<MetaInfo*>* parsingElement;
-    ArrayItem* parseArray(MetaInfo* item);
-    ObjectItem* parseObject(MetaInfo* item);
-    void deleteObject(MetaInfo* object);
-    void deleteArray(MetaInfo* array);
-public:
-    JsonParser(std::ifstream* file);
-    JsonParser(std::string json);
-    ~JsonParser();
-    ArrayItem* getArray();
-    ObjectItem* getObject();
-    bool isObject();
-    bool isArray();
-};
+    class JsonParser
+    {
+    protected:
+        MetaInfo* topElement = nullptr;
+        std::stack<MetaInfo*>* parsingElement = nullptr;
+        ArrayItem* parseArray(MetaInfo* item);
+        ObjectItem* parseObject(MetaInfo* item);
+        void deleteObject(MetaInfo* object);
+        void deleteArray(MetaInfo* array);
+    public:
+        JsonParser(std::ifstream* file);
+        JsonParser(std::string json);
+        ~JsonParser();
+        ArrayItem* getArray();
+        ObjectItem* getObject();
+        bool isObject();
+        bool isArray();
+    };
+}

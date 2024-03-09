@@ -11,12 +11,15 @@
 #include "../meta/NumberInfo.h"
 #include "../meta/BoolInfo.h"
 
-class ArrayState: public JsonParserState
+namespace json
 {
-protected:
-    bool isMustNextElement = false;
-public:
-    ArrayState(std::stack<MetaInfo*>* stack);
-    virtual JsonParserState* next(char c) override;
-    void mustNextElement();
-};
+    class ArrayState: public JsonParserState
+    {
+    protected:
+        bool isMustNextElement = false;
+    public:
+        ArrayState(std::stack<MetaInfo*>* stack);
+        virtual JsonParserState* next(char c) override;
+        void mustNextElement();
+    };
+}

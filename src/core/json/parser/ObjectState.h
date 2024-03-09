@@ -6,12 +6,15 @@
 #include "AppendState.h"
 #include "../meta/ObjectItemInfo.h"
 
-class ObjectState: public JsonParserState
+namespace json
 {
-protected:
-    bool isMustNextElem = false;
-public:
-    ObjectState(std::stack<MetaInfo*>* stack);
-    virtual JsonParserState* next(char c) override;
-    void mustNextElem();
-};
+    class ObjectState: public JsonParserState
+    {
+    protected:
+        bool isMustNextElem = false;
+    public:
+        ObjectState(std::stack<MetaInfo*>* stack);
+        virtual JsonParserState* next(char c) override;
+        void mustNextElem();
+    };
+}

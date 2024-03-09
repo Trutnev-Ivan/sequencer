@@ -3,17 +3,20 @@
 #include <cctype>
 #include <string>
 
-class BoolInfo: public MetaInfo
+namespace json
 {
-private:
-    bool isValidChar(char c);
-protected:
-    std::string value;
-public:
-    const static int FALSE_LENGTH = 5;
-    const static int TRUE_LENGTH = 4;
-    virtual PARSING_ELEMENT getType() override;
-    void appendChar(char c);
-    std::string getValue();
-    virtual std::string toString() override;
-};
+    class BoolInfo: public MetaInfo
+    {
+    private:
+        bool isValidChar(char c);
+    protected:
+        std::string value;
+    public:
+        const static int FALSE_LENGTH = 5;
+        const static int TRUE_LENGTH = 4;
+        virtual PARSING_ELEMENT getType() override;
+        void appendChar(char c);
+        std::string getValue();
+        virtual std::string toString() override;
+    };
+}

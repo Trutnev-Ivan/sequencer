@@ -1,35 +1,38 @@
 #include "ArrayInfo.h"
 
-PARSING_ELEMENT ArrayInfo::getType() 
+namespace json
 {
-    return PARSING_ELEMENT::ARRAY;
-}
-
-void ArrayInfo::append(ArrayItemInfo* item)
-{
-    this->items.push_back(item);
-}
-
-std::string ArrayInfo::toString()
-{
-    std::string str = "[";
-
-    for (ArrayItemInfo* item: this->items)
+    PARSING_ELEMENT ArrayInfo::getType() 
     {
-        str += item->toString() + ", ";
+        return PARSING_ELEMENT::ARRAY;
     }
 
-    str += "]";
+    void ArrayInfo::append(ArrayItemInfo* item)
+    {
+        this->items.push_back(item);
+    }
 
-    return str;
-}
+    std::string ArrayInfo::toString()
+    {
+        std::string str = "[";
 
-int ArrayInfo::size()
-{
-    return this->items.size();
-}
+        for (ArrayItemInfo* item: this->items)
+        {
+            str += item->toString() + ", ";
+        }
 
-ArrayItemInfo* ArrayInfo::operator[](int index)
-{
-    return this->items[index];
+        str += "]";
+
+        return str;
+    }
+
+    int ArrayInfo::size()
+    {
+        return this->items.size();
+    }
+
+    ArrayItemInfo* ArrayInfo::operator[](int index)
+    {
+        return this->items[index];
+    }
 }

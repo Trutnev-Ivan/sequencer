@@ -1,6 +1,9 @@
 #include "JsonTopElementException.h"
 
-const char* JsonTopElementException::what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW
+namespace json
 {
-    return "Top element in json mus be object or array";
+    const char* JsonTopElementException::what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW
+    {
+        return "Top element in json must be object or array";
+    }
 }

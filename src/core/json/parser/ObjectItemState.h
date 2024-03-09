@@ -14,19 +14,22 @@
 #include "../meta/NumberInfo.h"
 #include "../meta/BoolInfo.h"
 
-class ObjectItemState: public JsonParserState
+namespace json
 {
-protected:
-    bool isFilledKey = false;
-    bool isFilledValue = false;
-    bool hasDelimiter = false;
-
-    void parseKey(char c);
-    void parseDelimiter(char c);
-    JsonParserState* parseValue(char c);
-    JsonParserState* parseEnd(char c);
-
-public:
-    ObjectItemState(std::stack<MetaInfo*>* stack);
-    virtual JsonParserState* next(char c) override;
-};
+    class ObjectItemState: public JsonParserState
+    {
+    protected:
+        bool isFilledKey = false;
+        bool isFilledValue = false;
+        bool hasDelimiter = false;
+    
+        void parseKey(char c);
+        void parseDelimiter(char c);
+        JsonParserState* parseValue(char c);
+        JsonParserState* parseEnd(char c);
+    
+    public:
+        ObjectItemState(std::stack<MetaInfo*>* stack);
+        virtual JsonParserState* next(char c) override;
+    };
+}

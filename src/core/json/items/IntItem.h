@@ -1,13 +1,16 @@
 #pragma once
 #include "JsonItem.h"
 
-class IntItem: public JsonItem<int>
+namespace json
 {
-public:
-    IntItem(int value):
-        JsonItem(value)
-        {}
-    virtual std::string toString() const override;
-    friend std::ostream& operator<<(std::ostream& out, const IntItem& intItem);
-    friend std::ostream& operator<<(std::ostream& out, const IntItem* intItem);
-};
+    class IntItem: public JsonItem<int>
+    {
+    public:
+        IntItem(int value):
+            JsonItem(value)
+            {}
+        virtual std::string toString() const override;
+        friend std::ostream& operator<<(std::ostream& out, const IntItem& intItem);
+        friend std::ostream& operator<<(std::ostream& out, const IntItem* intItem);
+    };
+}
