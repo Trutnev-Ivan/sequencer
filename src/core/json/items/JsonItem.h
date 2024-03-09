@@ -3,47 +3,50 @@
 #include <string>
 #include <iostream>
 #include "../exceptions/JsonCastTypeException.h"
-#include "../exceptions/JsonTypeException.h"
+#include "../exceptions/JsonItemTypeException.h"
 
-class StringItem;
-class BoolItem;
-class ObjectItem;
-class ArrayItem;
-class FloatItem;
-class IntItem;
-
-template<class T>
-class JsonItem
+namespace json
 {
-protected:
-    T value;
-public:
+    class StringItem;
+    class BoolItem;
+    class ObjectItem;
+    class ArrayItem;
+    class FloatItem;
+    class IntItem;
 
-    JsonItem(T value)
+    template<class T>
+    class JsonItem
     {
-        this->setValue(value);
-    }
+    protected:
+        T value;
+    public:
 
-    virtual T getValue() const
-    {
-        return this->value;
-    }
+        JsonItem(T value)
+        {
+            this->setValue(value);
+        }
 
-    virtual void setValue(T value)
-    {
-        this->value = value;
-    }
+        virtual T getValue() const
+        {
+            return this->value;
+        }
 
-    virtual std::string toString() const {return "";};
+        virtual void setValue(T value)
+        {
+            this->value = value;
+        }
 
-    template<class instanceType>
-    bool isInstanceOfJsonItem()
-    {
-        return std::is_base_of_v<StringItem, instanceType>
-        || std::is_base_of_v<BoolItem, instanceType>
-        || std::is_base_of_v<ArrayItem, instanceType>
-        || std::is_base_of_v<FloatItem, instanceType>
-        || std::is_base_of_v<IntItem, instanceType>
-        || std::is_base_of_v<ObjectItem, instanceType>;
-    }
-};
+        virtual std::string toString() const {return "";};
+
+        template<class instanceType>
+        static bool isInstanceOfJsonItem()
+        {
+            return std::is_base_of_v<StringItem, instanceType>
+            || std::is_base_of_v<BoolItem, instanceType>
+            || std::is_base_of_v<ArrayItem, instanceType>
+            || std::is_base_of_v<FloatItem, instanceType>
+            || std::is_base_of_v<IntItem, instanceType>
+            || std::is_base_of_v<ObjectItem, instanceType>;
+        }
+    };
+}

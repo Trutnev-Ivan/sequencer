@@ -1,6 +1,9 @@
 #include "JsonEmptyNextElementException.h"
 
-const char* JsonEmptyNextElementException::what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW
+namespace json
 {
-    return "No next element";
+    const char* JsonEmptyNextElementException::what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW
+    {
+        return "No next element";
+    }
 }

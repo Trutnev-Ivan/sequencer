@@ -1,29 +1,32 @@
 #include "NumberInfo.h"
 
-PARSING_ELEMENT NumberInfo::getType()
+namespace json
 {
-    return PARSING_ELEMENT::NUMBER;
-}
-
-void NumberInfo::appendChar(char c)
-{
-    if (!std::isdigit(c) && c != '.')
-        throw JsonParseException(c);
-
-    this->value += c;
-}
-
-std::string NumberInfo::getValue()
-{
-    return this->value;
-}
-
-std::string NumberInfo::toString()
-{
-    return this->getValue();
-}
-
-bool NumberInfo::isFloat()
-{
-    return this->value.find('.') != std::string::npos;
+    PARSING_ELEMENT NumberInfo::getType()
+    {
+        return PARSING_ELEMENT::NUMBER;
+    }
+    
+    void NumberInfo::appendChar(char c)
+    {
+        if (!std::isdigit(c) && c != '.' && c != '-' || c == '-' && this->value.size() != 0)
+            throw JsonParseException(c);
+    
+        this->value += c;
+    }
+    
+    std::string NumberInfo::getValue()
+    {
+        return this->value;
+    }
+    
+    std::string NumberInfo::toString()
+    {
+        return this->getValue();
+    }
+    
+    bool NumberInfo::isFloat()
+    {
+        return this->value.find('.') != std::string::npos;
+    }
 }

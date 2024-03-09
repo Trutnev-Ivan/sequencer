@@ -4,9 +4,12 @@
 #include "AppendState.h"
 #include "../meta/StringInfo.h"
 
-class StringState: public JsonParserState
+namespace json
 {
-public:
-    StringState(std::stack<MetaInfo*>* stack);
-    virtual JsonParserState* next(char c) override;
-};
+    class StringState: public JsonParserState
+    {
+    public:
+        StringState(std::stack<MetaInfo*>* stack);
+        virtual JsonParserState* next(char c) override;
+    };
+}

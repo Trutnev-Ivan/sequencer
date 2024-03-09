@@ -68,7 +68,7 @@ add_library(json
             "${INCLUDE_CORE_DIRECTORY}json/parser/StartState.cpp"
             "${INCLUDE_CORE_DIRECTORY}json/parser/StringState.h"
             "${INCLUDE_CORE_DIRECTORY}json/parser/StringState.cpp"
-
+            
             "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonAppendStateException.h"
             "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonAppendStateException.cpp"
             "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonArrayItemStateException.h"
@@ -84,8 +84,12 @@ add_library(json
             "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonObjectItemDelimiterException.cpp"
             "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonParseException.h"
             "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonParseException.cpp"
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonParseKeyException.h"
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonParseKeyException.cpp"
             "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonTopElementException.h"
             "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonTopElementException.cpp"
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonItemTypeException.h"
+            "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonItemTypeException.cpp"
             "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonTypeException.h"
             "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonTypeException.cpp")
 

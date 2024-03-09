@@ -10,23 +10,27 @@
 #include "../exceptions/JsonNumberPointException.h"
 #include "../exceptions/JsonObjectItemDelimiterException.h"
 #include "../exceptions/JsonTopElementException.h"
+#include "../exceptions/JsonParseKeyException.h"
 
-class StartState;
-class ObjectState;
-class ObjectItemState;
-class ArrayState;
-class ArrayItemState;
-class StringState;
-class AppendState;
-class EndState;
-
-class JsonParserState
+namespace json
 {
-protected:
-    std::stack<MetaInfo*>* parsingElement;
-    MetaInfo* topElement;
-public:
-    JsonParserState(std::stack<MetaInfo*>* stack);
-    virtual JsonParserState* next(char c);
-    MetaInfo* getTopElement();
-};
+    class StartState;
+    class ObjectState;
+    class ObjectItemState;
+    class ArrayState;
+    class ArrayItemState;
+    class StringState;
+    class AppendState;
+    class EndState;
+    
+    class JsonParserState
+    {
+    protected:
+        std::stack<MetaInfo*>* parsingElement = nullptr;
+        MetaInfo* topElement = nullptr;
+    public:
+        JsonParserState(std::stack<MetaInfo*>* stack);
+        virtual JsonParserState* next(char c);
+        MetaInfo* getTopElement();
+    };
+}

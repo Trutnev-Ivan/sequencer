@@ -1,6 +1,9 @@
 #include "JsonObjectItemDelimiterException.h"
 
-const char* JsonObjectItemDelimiterException::what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW
+namespace json
 {
-    return "No object item delimiter (char ':' after key)";
+    const char* JsonObjectItemDelimiterException::what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW
+    {
+        return "No object item delimiter (char ':' after key)";
+    }
 }

@@ -2,7 +2,9 @@
 #include <string>
 #include "../exceptions/JsonParseException.h"
 
-enum PARSING_ELEMENT {
+namespace json
+{
+    enum PARSING_ELEMENT {
         STRING,
         NUMBER,
         BOOL,
@@ -12,9 +14,10 @@ enum PARSING_ELEMENT {
         OBJECT_ITEM
     };
 
-class MetaInfo
-{
-public:
-    virtual PARSING_ELEMENT getType() = 0;
-    virtual std::string toString() = 0;
-};
+    class MetaInfo
+    {
+    public:
+        virtual PARSING_ELEMENT getType() = 0;
+        virtual std::string toString() = 0;
+    };
+}

@@ -1,5 +1,8 @@
 #pragma once
 #include <exception>
 
-class JsonException: std::exception
-{};
+namespace json
+{
+    class JsonException: std::exception
+    {};
+}

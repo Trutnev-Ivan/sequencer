@@ -1,6 +1,9 @@
 #include "JsonTypeException.h"
 
-const char* JsonTypeException::what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW
+namespace json
 {
-    return "Type must be inherited of JsonItem class";
+    const char* JsonTypeException::what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW
+    {
+        return "Invalid json type element";
+    }
 }

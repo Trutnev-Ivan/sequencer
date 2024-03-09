@@ -3,9 +3,12 @@
 #include "JsonParserState.h"
 #include <iostream>
 
-class EndState: public JsonParserState
+namespace json
 {
-public:
-    EndState(std::stack<MetaInfo*>* stack);
-    virtual JsonParserState* next(char c) override;
-};
+    class EndState: public JsonParserState
+    {
+    public:
+        EndState(std::stack<MetaInfo*>* stack);
+        virtual JsonParserState* next(char c) override;
+    };
+}

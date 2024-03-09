@@ -6,9 +6,12 @@
 #include "../meta/ObjectInfo.h"
 #include "../meta/ArrayInfo.h"
 
-class StartState: public JsonParserState
+namespace json
 {
-public:
-    StartState(std::stack<MetaInfo*>* stack);
-    virtual JsonParserState* next(char c) override;
-};
+    class StartState: public JsonParserState
+    {
+    public:
+        StartState(std::stack<MetaInfo*>* stack);
+        virtual JsonParserState* next(char c) override;
+    };
+}

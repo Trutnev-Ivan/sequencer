@@ -1,39 +1,42 @@
 #include "ObjectInfo.h"
 
-PARSING_ELEMENT ObjectInfo::getType()
+namespace json
 {
-    return PARSING_ELEMENT::OBJECT;
-}
-
-void ObjectInfo::appendItem(ObjectItemInfo* item)
-{
-    this->items.push_back(item);
-}
-
-std::vector<ObjectItemInfo*> ObjectInfo::getItems()
-{
-    return this->items;
-}
-
-std::string ObjectInfo::toString()
-{
-    std::string str = "{\n";
-
-    for (ObjectItemInfo* item: this->items)
+    PARSING_ELEMENT ObjectInfo::getType()
     {
-        str += item->toString() + ",\n";
+        return PARSING_ELEMENT::OBJECT;
     }
 
-    str += "}";
-    return str;
-}
+    void ObjectInfo::appendItem(ObjectItemInfo* item)
+    {
+        this->items.push_back(item);
+    }
 
-int ObjectInfo::size()
-{
-    return this->items.size();
-}
+    std::vector<ObjectItemInfo*> ObjectInfo::getItems()
+    {
+        return this->items;
+    }
 
-ObjectItemInfo* ObjectInfo::operator[](int index)
-{
-    return this->items[index];
+    std::string ObjectInfo::toString()
+    {
+        std::string str = "{\n";
+
+        for (ObjectItemInfo* item: this->items)
+        {
+            str += item->toString() + ",\n";
+        }
+
+        str += "}";
+        return str;
+    }
+
+    int ObjectInfo::size()
+    {
+        return this->items.size();
+    }
+
+    ObjectItemInfo* ObjectInfo::operator[](int index)
+    {
+        return this->items[index];
+    }
 }

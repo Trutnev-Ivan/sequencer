@@ -1,33 +1,35 @@
 #include "ArrayItemState.h"
 
-ArrayItemState::ArrayItemState(std::stack<MetaInfo*>* stack):
-    JsonParserState(stack)
+namespace json{
+    ArrayItemState::ArrayItemState(std::stack<MetaInfo*>* stack):
+        JsonParserState(stack)
+        {
+            if (this->parsingElement->top()->getType() != PARSING_ELEMENT::ARRAY_ITEM)
+                throw JsonArrayItemStateException();
+            }
+
+    JsonParserState* ArrayItemState::next(char c) 
     {
-        if (this->parsingElement->top()->getType() != PARSING_ELEMENT::ARRAY_ITEM)
-            throw JsonArrayItemStateException();
+        if (std::isspace(c))
+                return this;
+
+        if (c == ',')
+        {
+            AppendState* appendState = new AppendState(this->parsingElement);
+                JsonParserState* next = appendState->next(c);
+
+            delete appendState;
+            return next;
+        }
+        else if (c == ']')
+        {
+            AppendState* appendState = new AppendState(this->parsingElement);
+                JsonParserState* next = appendState->next(c);
+
+            delete appendState;
+            return next->next(c);
+        }
+
+        throw JsonParseException(c);
     }
-
-JsonParserState* ArrayItemState::next(char c) 
-{
-    if (std::isspace(c))
-        return this;
-
-    if (c == ',')
-    {
-        AppendState* appendState = new AppendState(this->parsingElement);
-        JsonParserState* next = appendState->next(c);
-
-        delete appendState;
-        return next;
-    }
-    else if (c == ']')
-    {
-        AppendState* appendState = new AppendState(this->parsingElement);
-        JsonParserState* next = appendState->next(c);
-
-        delete appendState;
-        return next->next(c);
-    }
-    
-    throw JsonParseException(c);
 }
