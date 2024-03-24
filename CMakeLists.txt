@@ -93,11 +93,17 @@ add_library(json
             "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonTypeException.h"
             "${INCLUDE_CORE_DIRECTORY}json/exceptions/JsonTypeException.cpp")
 
+add_library(bit
+            "${INCLUDE_CORE_DIRECTORY}parser/bit/BitParser.h"
+            "${INCLUDE_CORE_DIRECTORY}parser/bit/BitParser.cpp")
+
 if(TEST)
     add_executable(test "tests/main.cpp")
     target_compile_features(test PUBLIC cxx_std_20)
     target_link_libraries(test PRIVATE json)
+    target_link_libraries(test PRIVATE bit)
     target_include_directories(test
         PRIVATE
-        ${INCLUDE_CORE_DIRECTORY})
+        ${INCLUDE_CORE_DIRECTORY}
+        "${INCLUDE_CORE_DIRECTORY}parser/")
 endif()
