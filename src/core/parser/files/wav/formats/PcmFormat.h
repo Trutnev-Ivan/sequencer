@@ -1,13 +1,16 @@
 #pragma once
 #include "WavFormat.h"
 #include "../chunks/PcmFmtChunk.h"
+#include "../samples/PcmSample.h"
 
-class PcmFormat: public WavFormat
+namespace wav
 {
-protected:
-    PcmFmtChunk* fmtChunk = nullptr;
-public:
-    PcmFormat(BitParser* parser);
-    ~PcmFormat();
-    virtual void parseFmtChunk() override;
-};
+    class PcmFormat: public WavFormat
+    {
+    public:
+        PcmFormat(BitParser* parser);
+        ~PcmFormat();
+        virtual void parseFmtChunk() override;
+        virtual PcmSample* getSample() override;
+    };
+}

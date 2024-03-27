@@ -1,7 +1,7 @@
 #include "WavParser.h"
 #include <iostream>
 
-WavParser::WavParser(std::string path)
+wav::WavParser::WavParser(std::string path)
 {
     if (!std::filesystem::exists(path))
         throw std::ifstream::failure("File " + path + " not exists");
@@ -15,35 +15,35 @@ WavParser::WavParser(std::string path)
     this->parseHeader();
 }
 
-void WavParser::parseHeader()
+void wav::WavParser::parseHeader()
 {
-    if (this->bitParser->get(32) != WavParser::RIFF)
+    if (this->bitParser->getUnsigned(32) != WavParser::RIFF)
         throw RiffException();
 
-    this->fileSize = this->bitParser->get(32) + 8;
+    this->fileSize = this->bitParser->getUnsigned(32) + 8;
 
-    if (this->bitParser->get(32) != WavParser::WAVE)
+    if (this->bitParser->getUnsigned(32) != WavParser::WAVE)
         throw WaveException();
 
-    if (this->bitParser->get(32) != WavParser::FORMAT_ID)
+    if (this->bitParser->getUnsigned(32) != WavParser::FORMAT_ID)
         throw FormatChunkException();
 
-    uint32_t formatChunkSize = this->bitParser->get(32);
+    uint32_t formatChunkSize = this->bitParser->getUnsigned(32);
 
-    this->parsingStrategy = WavFormatFactory::getInstance(this->bitParser, this->bitParser->get(16));
+    this->parsingStrategy = WavFormatFactory::getInstance(this->bitParser, this->bitParser->getUnsigned(16));
     this->parsingStrategy->parseFmtChunk();
 
-    uint32_t chunkId = this->bitParser->get(32);
+    uint32_t chunkId = this->bitParser->getUnsigned(32);
 
     //TODO: добавить парсинг др. типов чанков
     if (chunkId == WavParser::DATA_ID)
     {
-        this->dataSize = this->bitParser->get(32);
+        this->dataSize = this->bitParser->getUnsigned(32);
         this->startDataPosition = this->file->tellg();
     }
 }
 
-WavParser::~WavParser()
+wav::WavParser::~WavParser()
 {
     this->file->close();
     
@@ -54,4 +54,39 @@ WavParser::~WavParser()
     this->file = nullptr;
     this->bitParser = nullptr;
     this->parsingStrategy = nullptr;
+}
+
+wav::FmtChunk* wav::WavParser::getHeader()
+{
+    if (this->parsingStrategy)
+        return this->parsingStrategy->getFmtChunk();
+
+    return nullptr;
+}
+
+wav::WavSample* wav::WavParser::getSample()
+{
+    unsigned long long countToEndFile = this->fileSize - this->file->tellg();
+
+    if (!this->file->eof() && countToEndFile >= this->getHeader()->getBitsPerSample() / CHAR_BIT)
+        return this->parsingStrategy->getSample();
+    
+    return nullptr;
+}
+
+std::vector<wav::WavSample*> wav::WavParser::getSamples(int count)
+{
+    std::vector<WavSample*> vector;
+
+    for (int i = 0; i < count; ++i)
+    {
+        WavSample* sample = this->getSample();
+
+        if (sample == nullptr)
+            break;
+
+        vector.push_back(sample);
+    }
+
+    return vector;
 }

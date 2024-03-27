@@ -1,24 +1,39 @@
 #include "PcmFormat.h"
-#include <iostream>
 
-
-PcmFormat::PcmFormat(BitParser* parser):
+wav::PcmFormat::PcmFormat(BitParser* parser):
     WavFormat(parser)
     {}
 
-PcmFormat::~PcmFormat()
+wav::PcmFormat::~PcmFormat()
 {
     delete this->fmtChunk;
     this->fmtChunk = nullptr;
 }
 
-void PcmFormat::parseFmtChunk()
+void wav::PcmFormat::parseFmtChunk()
 {
     this->fmtChunk = new PcmFmtChunk;
 
-    this->fmtChunk->setChannels(static_cast<uint16_t>(this->parser->get(16)));
-    this->fmtChunk->setSampleRate(this->parser->get(32));
-    this->fmtChunk->setByteRate(this->parser->get(32));
-    this->fmtChunk->setBlockAlign(this->parser->get(16));
-    this->fmtChunk->setBitsPerSample(this->parser->get(16));
+    this->fmtChunk->setChannels(static_cast<uint16_t>(this->parser->getUnsigned(16)));
+    this->fmtChunk->setSampleRate(this->parser->getUnsigned(32));
+    this->fmtChunk->setByteRate(this->parser->getUnsigned(32));
+    this->fmtChunk->setBlockAlign(this->parser->getUnsigned(16));
+    this->fmtChunk->setBitsPerSample(this->parser->getUnsigned(16));
+}
+
+wav::PcmSample* wav::PcmFormat::getSample()
+{
+    switch (this->getFmtChunk()->getBitsPerSample())
+    {
+        case 8:
+            return new PcmSample(this->parser->get<int8_t>(8));
+        case 16:
+            return new PcmSample(this->parser->get<int16_t>(16));
+        case 24:
+            return new PcmSample(this->parser->get<float>(24));
+        case 32:
+            return new PcmSample(this->parser->get<float>(32));
+        default:
+            return nullptr;
+    }
 }

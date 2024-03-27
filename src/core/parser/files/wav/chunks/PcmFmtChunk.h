@@ -2,5 +2,8 @@
 #include <cstdint>
 #include "FmtChunk.h"
 
-class PcmFmtChunk: public FmtChunk
-{};
+namespace wav
+{
+    class PcmFmtChunk: public FmtChunk
+    {};
+}

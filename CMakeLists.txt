@@ -100,6 +100,10 @@ add_library(bit
 add_library(wav
             "${INCLUDE_CORE_DIRECTORY}parser/files/wav/WavParser.h"
             "${INCLUDE_CORE_DIRECTORY}parser/files/wav/WavParser.cpp"
+            "${INCLUDE_CORE_DIRECTORY}parser/files/wav/samples/WavSample.h"
+            "${INCLUDE_CORE_DIRECTORY}parser/files/wav/samples/WavSample.cpp"
+            "${INCLUDE_CORE_DIRECTORY}parser/files/wav/samples/PcmSample.h"
+            "${INCLUDE_CORE_DIRECTORY}parser/files/wav/samples/PcmSample.cpp"
             "${INCLUDE_CORE_DIRECTORY}parser/files/wav/WavFormatFactory.h"
             "${INCLUDE_CORE_DIRECTORY}parser/files/wav/WavFormatFactory.cpp"
             "${INCLUDE_CORE_DIRECTORY}parser/files/wav/formats/WavFormat.h"
@@ -124,15 +128,24 @@ add_library(wav
 target_link_libraries(wav PRIVATE bit)
 target_include_directories(wav PRIVATE "${INCLUDE_CORE_DIRECTORY}parser/")
 
+include("cmake/findPortAudio.cmake")
+
 if(TEST)
     add_executable(test "tests/main.cpp")
     target_compile_features(test PUBLIC cxx_std_20)
     target_link_libraries(test PRIVATE json)
     target_link_libraries(test PRIVATE bit)
     target_link_libraries(test PRIVATE wav)
+
+    if (${PORTAUDIO_FOUND})
+        target_include_directories(test PRIVATE ${PORTAUDIO_INCLUDE_DIRS})
+        target_link_libraries(test PRIVATE ${PORTAUDIO_LIBRARY})
+    endif()
+    
     target_include_directories(test
         PRIVATE
         ${INCLUDE_CORE_DIRECTORY}
         "${INCLUDE_CORE_DIRECTORY}parser/"
-        "${INCLUDE_CORE_DIRECTORY}parser/files/")
+        "${INCLUDE_CORE_DIRECTORY}parser/files/"
+        )
 endif()

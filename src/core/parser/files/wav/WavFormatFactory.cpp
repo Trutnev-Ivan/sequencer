@@ -1,6 +1,6 @@
 #include "WavFormatFactory.h"
 
-WavFormat* WavFormatFactory::getInstance(BitParser* parser, uint16_t format)
+wav::WavFormat* wav::WavFormatFactory::getInstance(BitParser* parser, uint16_t format)
 {
     switch (static_cast<WAV_FORMATS>(format))
     {
