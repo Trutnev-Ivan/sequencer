@@ -1,5 +1,8 @@
 #pragma once
 #include <exception>
 
-class WavException: std::exception
-{};
+namespace wav
+{
+    class WavException: std::exception
+    {};
+}

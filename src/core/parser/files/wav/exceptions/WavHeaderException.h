@@ -1,5 +1,8 @@
 #pragma once
 #include "WavException.h"
 
-class WavHeaderException: WavException
-{};
+namespace wav
+{
+    class WavHeaderException: WavException
+    {};
+}

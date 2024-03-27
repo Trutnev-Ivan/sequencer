@@ -12,46 +12,26 @@ BitParser::BitParser(std::ifstream* file)
     this->order = BIT_ORDER::LSB;
 }
 
-uint64_t BitParser::get(int count)
+uint64_t BitParser::getUnsigned(int count)
 {
     if (this->order == BIT_ORDER::MSB)
-        return this->getBigEndian(count);
+        return this->getBigEndian<uint64_t>(count);
     else
-        return this->getLittleEndian(count);
+        return this->getLittleEndian<uint64_t>(count);
 }
 
-uint64_t BitParser::getBigEndian(int count)
+double BitParser::getDouble(int count)
 {
-    assert(count >= 0 && count <= 57);
-
-    while (this->length < count)
-    {
-        this->buffer |= static_cast<uint64_t>(this->file->get()) << (56 - this->length);
-        this->length += 8;
-    }
-
-    uint64_t result = (this->buffer >> 1) >> (63 - count);
-
-    this->buffer << count;
-    this->length -= count;
-
-    return result;
+    if (this->order == BIT_ORDER::MSB)
+        return this->getBigEndian<double>(count);
+    else
+        return this->getLittleEndian<double>(count);
 }
 
-uint64_t BitParser::getLittleEndian(int count)
+int64_t BitParser::getSigned(int count)
 {
-    assert(count >= 0 && count <= 57);
-
-    while (this->length < count) 
-    {
-        this->buffer |= static_cast<uint64_t>(this->file->get()) << this->length;
-        this->length += 8;
-    }
-
-    uint64_t result = this->buffer & ((1ull << count) - 1);
-
-    this->buffer >>= count;
-    this->length -= count;
-
-    return result;
+if (this->order == BIT_ORDER::MSB)
+        return this->getBigEndian<int64_t>(count);
+    else
+        return this->getLittleEndian<int64_t>(count);
 }

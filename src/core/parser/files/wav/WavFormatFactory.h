@@ -6,13 +6,16 @@
 #include "exceptions/WaveUnknownFormatException.h"
 #include <bit/BitParser.h>
 
-enum class WAV_FORMATS {
-    UNKNOWN = 0x0000,
-    PCM = 0x0001
-};
-
-class WavFormatFactory
+namespace wav
 {
-public:
-    static WavFormat* getInstance(BitParser* parser, uint16_t format);
-};
+    enum class WAV_FORMATS {
+        UNKNOWN = 0x0000,
+        PCM = 0x0001
+    };
+    
+    class WavFormatFactory
+    {
+    public:
+        static WavFormat* getInstance(BitParser* parser, uint16_t format);
+    };
+}
