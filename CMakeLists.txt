@@ -8,6 +8,10 @@ project(${PROJECT_NAME}
 option(TEST "Build test cases" OFF)
 set(INCLUDE_CORE_DIRECTORY "src/core/" CACHE INTERNAL "Include header files of core" FORCE)
 
+add_library(tools
+            "${INCLUDE_CORE_DIRECTORY}tools/NumberTools.h")
+set_target_properties(tools PROPERTIES LINKER_LANGUAGE CXX)
+
 add_library(json
             "${INCLUDE_CORE_DIRECTORY}json/JSON.h"
             "${INCLUDE_CORE_DIRECTORY}json/JSON.cpp"
@@ -126,7 +130,10 @@ add_library(wav
             "${INCLUDE_CORE_DIRECTORY}parser/files/wav/exceptions/WaveUnknownFormatException.h"
             "${INCLUDE_CORE_DIRECTORY}parser/files/wav/exceptions/WaveUnknownFormatException.cpp")
 target_link_libraries(wav PRIVATE bit)
-target_include_directories(wav PRIVATE "${INCLUDE_CORE_DIRECTORY}parser/")
+target_link_libraries(wav PRIVATE tools)
+target_include_directories(wav PRIVATE 
+                            ${INCLUDE_CORE_DIRECTORY}
+                            "${INCLUDE_CORE_DIRECTORY}parser/")
 
 include("cmake/findPortAudio.cmake")
 
@@ -134,7 +141,6 @@ if(TEST)
     add_executable(test "tests/main.cpp")
     target_compile_features(test PUBLIC cxx_std_20)
     target_link_libraries(test PRIVATE json)
-    target_link_libraries(test PRIVATE bit)
     target_link_libraries(test PRIVATE wav)
 
     if (${PORTAUDIO_FOUND})

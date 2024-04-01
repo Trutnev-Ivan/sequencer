@@ -32,8 +32,10 @@ namespace wav{
         WavSample(uint64_t value);
         WavSample(float value);
         WavSample(double value);
+        ~WavSample();
     
         virtual double normalize(double start, double end) = 0;
+        virtual float normalize(float start, float end) = 0;
         virtual int64_t normalize(int64_t start, int64_t end) = 0;
     };
 }

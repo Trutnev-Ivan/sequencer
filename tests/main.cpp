@@ -3,14 +3,14 @@
 #include "json/JsonTest.h"
 #include <wav/WavParser.h>
 #include <iostream>
+#include <tools/NumberTools.h>
 
 #include <portaudio.h>
 
-static PaError initialize_port_audio();
-static void play_audio();
-//static PaError clean_up();
-
 int pa_stream_callback(const void*, void*, unsigned long, const PaStreamCallbackTimeInfo*, PaStreamCallbackFlags, void*);
+PaError initialize_port_audio(double sampleRate);
+void play_audio();
+//static PaError clean_up();
 
 wav::WavParser* parser = nullptr;
 PaStream* _stream = NULL;
@@ -18,12 +18,9 @@ PaStream* _stream = NULL;
 int main(int argc, char** argv)
 {
     parser = new wav::WavParser("StarWars3.wav");
-    
-    void* a;
-    int b = 1234;
-    a = &b;
 
-    std::cout << *static_cast<int*>(a) << std::endl;
+	initialize_port_audio(parser->getHeader()->getSampleRate());
+	play_audio();
 
     delete parser;
 
@@ -37,7 +34,7 @@ PaError initialize_port_audio(double sampleRate)
 	error = Pa_Initialize();
 	if (error) { return error; }
 
-	error = Pa_OpenDefaultStream(&_stream, 1, 2, paFloat32, sampleRate,
+	error = Pa_OpenDefaultStream(&_stream, 1, parser->getHeader()->getChannels(), paFloat32, sampleRate,
 		paFramesPerBufferUnspecified, pa_stream_callback, parser);
 	if (error) { return error; }
 
@@ -61,10 +58,19 @@ int pa_stream_callback(const void* input, void* output, unsigned long frameCount
     wav::WavParser* data = (wav::WavParser*)userData;
 	unsigned long framesRead = 0;
 	unsigned long frames = frameCount * (unsigned long)data->getHeader()->getChannels();
+	float *out = (float*)output;
 
 	memset(output, 0, sizeof(float) * frameCount * data->getHeader()->getChannels()); 	/* clear output buffer */
 
-	//framesRead = sf_readf_float(data->file, output, frameCount);
+	for (wav::WavSample* sample: data->getSamples(frameCount))
+	{
+		if (sample == nullptr)
+			break;
+
+		out[framesRead++] = sample->normalize(-1.0f, 1.0f);
+
+		delete sample;
+	}
 
 	if (framesRead < frameCount) {
 		return paComplete;

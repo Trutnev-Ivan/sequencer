@@ -5,6 +5,15 @@ namespace wav
 {
     class PcmSample: public WavSample
     {
+    protected:
+        static const int MIN_SAMPLE_VALUE_8 = -128;
+        static const int MAX_SAMPLE_VALUE_8 = 127;
+        static const int MIN_SAMPLE_VALUE_16 = -32760;
+        static const int MAX_SAMPLE_VALUE_16 = 32760;
+        static const int MIN_SAMPLE_VALUE_24 = -1;
+        static const int MAX_SAMPLE_VALUE_24 = 1;
+        static const int MIN_SAMPLE_VALUE_32 = -1;
+        static const int MAX_SAMPLE_VALUE_32 = 1;
     public:
         PcmSample(int8_t value);
         PcmSample(uint8_t value);
@@ -18,6 +27,7 @@ namespace wav
         PcmSample(double value);
     
         virtual double normalize(double start, double end) override;
+        virtual float normalize(float start, float end) override;
         virtual int64_t normalize(int64_t start, int64_t end) override;
     };
 }
