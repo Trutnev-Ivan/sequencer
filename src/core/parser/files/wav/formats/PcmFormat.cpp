@@ -14,14 +14,14 @@ void wav::PcmFormat::parseFmtChunk()
 {
     this->fmtChunk = new PcmFmtChunk;
 
-    this->fmtChunk->setChannels(static_cast<uint16_t>(this->parser->getUnsigned(16)));
-    this->fmtChunk->setSampleRate(this->parser->getUnsigned(32));
-    this->fmtChunk->setByteRate(this->parser->getUnsigned(32));
-    this->fmtChunk->setBlockAlign(this->parser->getUnsigned(16));
-    this->fmtChunk->setBitsPerSample(this->parser->getUnsigned(16));
+    this->fmtChunk->setChannels(this->parser->get<uint16_t>(16));
+    this->fmtChunk->setSampleRate(this->parser->get<uint32_t>(32));
+    this->fmtChunk->setByteRate(this->parser->get<uint32_t>(32));
+    this->fmtChunk->setBlockAlign(this->parser->get<uint16_t>(16));
+    this->fmtChunk->setBitsPerSample(this->parser->get<uint16_t>(16));
 }
 
-wav::PcmSample* wav::PcmFormat::getSample()
+wav::PcmSample* wav::PcmFormat::nextSample()
 {
     switch (this->getFmtChunk()->getBitsPerSample())
     {

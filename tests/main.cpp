@@ -17,9 +17,16 @@ PaStream* _stream = NULL;
 
 int main(int argc, char** argv)
 {
-    parser = new wav::WavParser("StarWars3.wav");
+    //parser = new wav::WavParser("StarWars3.wav");
+	//parser = new wav::WavParser("sample-3s.wav");
+	//parser = new wav::WavParser("example.wav");
+	parser = new wav::WavParser("pixel.wav");
+	//parser->changeSampleRate(48000);
+
+	std::cout << "SR: " << parser->getHeader()->getSampleRate() << std::endl;
 
 	initialize_port_audio(parser->getHeader()->getSampleRate());
+	//initialize_port_audio(44100);
 	play_audio();
 
     delete parser;

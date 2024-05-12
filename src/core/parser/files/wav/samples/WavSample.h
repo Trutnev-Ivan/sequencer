@@ -32,10 +32,19 @@ namespace wav{
         WavSample(uint64_t value);
         WavSample(float value);
         WavSample(double value);
+        WavSample(WavSample* sample);
         ~WavSample();
     
-        virtual double normalize(double start, double end) = 0;
-        virtual float normalize(float start, float end) = 0;
-        virtual int64_t normalize(int64_t start, int64_t end) = 0;
+        virtual double normalize(double start, double end);
+        virtual float normalize(float start, float end);
+        virtual int64_t normalize(int64_t start, int64_t end);
+
+        WAV_STORE_TYPE getStoreType();
+
+        template<class T>
+        T getValue()
+        {
+            return *static_cast<T*>(this->value);
+        }
     };
 }
