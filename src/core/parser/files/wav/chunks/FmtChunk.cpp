@@ -49,3 +49,27 @@ void wav::FmtChunk::setBitsPerSample(uint16_t bitsPerSample)
 {
     this->bitsPerSample = bitsPerSample;
 }
+
+std::string wav::FmtChunk::toString() const
+{
+    return "Channels: " + std::to_string(this->channels) + "\n" + 
+        "Sample Rate: " + std::to_string(this->sampleRate) + "\n" + 
+        "Byte Rate: " + std::to_string(this->byteRate) + "\n" +
+        "BlockAlign: " + std::to_string(this->blockAlign) + "\n" +
+        "Bits per Sample: " + std::to_string(this->bitsPerSample);
+}
+
+namespace wav
+{
+    std::ostream& operator<<(std::ostream& out, const FmtChunk& chunk)
+    {
+        out << chunk.toString();
+        return out;
+    }
+    
+    std::ostream& operator<<(std::ostream& out, const FmtChunk* chunk)
+    {
+        out << chunk->toString();
+        return out;
+    }
+}

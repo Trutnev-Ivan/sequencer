@@ -1,8 +1,9 @@
 #include "WavParser.h"
 #include <iostream>
+#include "interpolation/LinearInterpolation.h"
 
 wav::WavParser::WavParser(std::string path)
-{
+{    
     if (!std::filesystem::exists(path))
         throw std::ifstream::failure("File " + path + " not exists");
 
@@ -32,6 +33,9 @@ void wav::WavParser::parseHeader()
 
     this->parsingStrategy = WavFormatFactory::getInstance(this->bitParser, this->bitParser->getUnsigned(16));
     this->parsingStrategy->parseFmtChunk();
+
+    //TODO: добавить возможность изменять интерполяции
+    this->parsingStrategy->setInterpolation(new wav::LinearInterpolation(this->parsingStrategy));
 
     uint32_t chunkId = this->bitParser->getUnsigned(32);
 
@@ -68,7 +72,7 @@ wav::WavSample* wav::WavParser::getSample()
 {
     unsigned long long countToEndFile = this->fileSize - this->file->tellg();
 
-    if (!this->file->eof() && countToEndFile >= this->getHeader()->getBitsPerSample() / CHAR_BIT)
+    if (!this->bitParser->isFileEnd() && countToEndFile >= this->getHeader()->getBitsPerSample() / CHAR_BIT)
         return this->parsingStrategy->getSample();
     
     return nullptr;
@@ -89,4 +93,14 @@ std::vector<wav::WavSample*> wav::WavParser::getSamples(int count)
     }
 
     return vector;
+}
+
+/*
+Если нужно передескретизировать файл
+*/
+void wav::WavParser::changeSampleRate(uint32_t sampleRate)
+{
+    this->recalculateSampleRate = sampleRate;
+    if (this->parsingStrategy != nullptr)
+        this->parsingStrategy->changeSampleRate(sampleRate);
 }

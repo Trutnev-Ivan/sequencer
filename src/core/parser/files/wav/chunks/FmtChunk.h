@@ -1,5 +1,7 @@
 #pragma once
 #include <cstdint>
+#include <string>
+#include <iostream>
 
 namespace wav
 {
@@ -23,5 +25,9 @@ namespace wav
         void setByteRate(uint32_t byteRate);
         void setBlockAlign(uint16_t blockAlign);
         void setBitsPerSample(uint16_t bitsPerSample);
+
+        std::string toString() const;
+        friend std::ostream& operator<<(std::ostream& out, const FmtChunk& chunk);
+        friend std::ostream& operator<<(std::ostream& out, const FmtChunk* chunk);
     };
 }

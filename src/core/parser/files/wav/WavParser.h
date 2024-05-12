@@ -28,6 +28,7 @@ namespace wav
         uint32_t fileSize = 0;
         uint32_t dataSize = 0;
         uint32_t startDataPosition = 0;
+        uint32_t recalculateSampleRate = 0;
     
         void parseHeader();
     public:
@@ -36,5 +37,6 @@ namespace wav
         FmtChunk* getHeader();
         WavSample* getSample();
         std::vector<WavSample*> getSamples(int count);
+        void changeSampleRate(uint32_t sampleRate);
     };
 }

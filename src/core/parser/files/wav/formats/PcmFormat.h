@@ -11,6 +11,6 @@ namespace wav
         PcmFormat(BitParser* parser);
         ~PcmFormat();
         virtual void parseFmtChunk() override;
-        virtual PcmSample* getSample() override;
+        virtual PcmSample* nextSample() override;
     };
 }

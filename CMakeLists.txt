@@ -115,6 +115,11 @@ add_library(wav
             "${INCLUDE_CORE_DIRECTORY}parser/files/wav/formats/PcmFormat.h"
             "${INCLUDE_CORE_DIRECTORY}parser/files/wav/formats/PcmFormat.cpp"
 
+            "${INCLUDE_CORE_DIRECTORY}parser/files/wav/interpolation/Interpolation.h"
+            "${INCLUDE_CORE_DIRECTORY}parser/files/wav/interpolation/Interpolation.cpp"
+            "${INCLUDE_CORE_DIRECTORY}parser/files/wav/interpolation/LinearInterpolation.h"
+            "${INCLUDE_CORE_DIRECTORY}parser/files/wav/interpolation/LinearInterpolation.cpp"
+
             "${INCLUDE_CORE_DIRECTORY}parser/files/wav/chunks/FmtChunk.h"
             "${INCLUDE_CORE_DIRECTORY}parser/files/wav/chunks/FmtChunk.cpp"
             "${INCLUDE_CORE_DIRECTORY}parser/files/wav/chunks/PcmFmtChunk.h"

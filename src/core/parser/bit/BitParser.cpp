@@ -35,3 +35,13 @@ if (this->order == BIT_ORDER::MSB)
     else
         return this->getLittleEndian<int64_t>(count);
 }
+
+std::ifstream* BitParser::getFile()
+{
+    return this->file;
+}
+
+bool BitParser::isFileEnd()
+{
+    return this->file->eof();
+}

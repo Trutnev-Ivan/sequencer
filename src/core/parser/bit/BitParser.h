@@ -59,6 +59,8 @@ public:
     uint64_t getUnsigned(int count);
     double getDouble(int count);
     int64_t getSigned(int count);
+    std::ifstream* getFile();
+    bool isFileEnd();
 
     template<class T>
     T get(int count)

@@ -60,6 +60,63 @@ wav::WavSample::WavSample(double value)
     this->type = WAV_STORE_TYPE::DOUBLE;
 }
 
+wav::WavSample::WavSample(WavSample* sample)
+{
+    this->type = sample->type;
+
+    switch (this->type)
+    {
+        case wav::WAV_STORE_TYPE::DOUBLE:
+        {
+            double v = *static_cast<double*>(sample->value);
+            this->value = new double(v);
+            break;
+        }
+        case wav::WAV_STORE_TYPE::FLOAT:
+        {
+            float v = *static_cast<float*>(sample->value);
+            this->value = new float(v);
+            break;
+        }
+        case wav::WAV_STORE_TYPE::INT8:
+        {
+            int8_t v = *static_cast<int8_t*>(sample->value);
+            this->value = new int8_t(v);
+            break;
+        }
+        case wav::WAV_STORE_TYPE::UINT8:
+        {
+            uint8_t v = *static_cast<uint8_t*>(sample->value);
+            this->value = new uint8_t(v);
+            break;
+        }
+        case wav::WAV_STORE_TYPE::INT16:
+        {
+            int16_t v = *static_cast<int16_t*>(sample->value);
+            this->value = new int16_t(v);
+            break;
+        }
+        case wav::WAV_STORE_TYPE::UINT16:
+        {
+            uint16_t v = *static_cast<uint16_t*>(sample->value);
+            this->value = new uint16_t(v);
+            break;
+        }
+        case wav::WAV_STORE_TYPE::INT32:
+        {
+            int32_t v = *static_cast<int32_t*>(sample->value);
+            this->value = new int32_t(v);
+            break;
+        }
+        case wav::WAV_STORE_TYPE::UINT32:
+        {
+            uint32_t v = *static_cast<uint32_t*>(sample->value);
+            this->value = new uint32_t(v);
+            break;
+        }
+    }
+}
+
 wav::WavSample::~WavSample()
 {
     switch (this->type)
@@ -91,4 +148,24 @@ wav::WavSample::~WavSample()
     }
 
     this->value = nullptr;
+}
+
+wav::WAV_STORE_TYPE wav::WavSample::getStoreType()
+{
+    return this->type;
+}
+
+double wav::WavSample::normalize(double start, double end)
+{
+    return -1;
+}
+
+float wav::WavSample::normalize(float start, float end)
+{
+    return -1;
+}
+
+int64_t wav::WavSample::normalize(int64_t start, int64_t end)
+{
+    return -1;
 }
