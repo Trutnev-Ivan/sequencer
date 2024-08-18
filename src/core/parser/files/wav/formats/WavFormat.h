@@ -25,5 +25,7 @@ namespace wav
         uint32_t getInterpolationSampleRate();
         bool isFileEnd();
         virtual WavSample* nextSample() = 0; // Sample from file
+        bool hasNextSample(int countToEndFile);
+        std::streampos tellg();
     };
 }

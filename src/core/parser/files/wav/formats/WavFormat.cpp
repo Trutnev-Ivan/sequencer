@@ -47,3 +47,15 @@ bool wav::WavFormat::isFileEnd()
 {
     return this->parser->isFileEnd();
 }
+
+//TODO: refactor
+bool wav::WavFormat::hasNextSample(int countToEndFile)
+{
+    return !this->isFileEnd() && countToEndFile >= this->fmtChunk->getBitsPerSample() / CHAR_BIT || (this->interpolationStrategy && this->interpolationStrategy->hasNextSample());
+}
+
+// TODO: refactor
+std::streampos wav::WavFormat::tellg()
+{
+    return this->parser->tellg();
+}

@@ -21,6 +21,8 @@ wav::PcmSample::PcmSample(float value):
     WavSample(value){}
 wav::PcmSample::PcmSample(double value):
     WavSample(value){}
+wav::PcmSample::PcmSample(wav::PcmSample* value):
+    WavSample(value){}
 
 double wav::PcmSample::normalize(double start, double end)
 {
@@ -114,6 +116,8 @@ int64_t wav::PcmSample::normalize(int64_t start, int64_t end)
             fromStart = PcmSample::MIN_SAMPLE_VALUE_32;
             fromEnd = PcmSample::MAX_SAMPLE_VALUE_32;
     }
+
+
 
     return NumberTools::convertDiapason<int64_t>(
                         value,

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream>
-
 #include <stack>
 #include <fstream>
 #include "../meta/MetaInfo.h"

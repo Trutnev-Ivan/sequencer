@@ -16,18 +16,19 @@ PaStream* _stream = NULL;
 
 int main(int argc, char** argv)
 {
-    //parser = new wav::WavParser("StarWars3.wav");
+    parser = new wav::WavParser("StarWars3.wav");
 	//parser = new wav::WavParser("CantinaBand3.wav");
 	//parser = new wav::WavParser("PinkPanther30.wav");
 	//parser = new wav::WavParser("PinkPanther30_stereo.wav");
 	//parser = new wav::WavParser("example.wav");
-	parser = new wav::WavParser("pixel.wav");
-	//parser->changeSampleRate(48000);
+	//parser = new wav::WavParser("pixel.wav");
+	parser->changeSampleRate(30000);
+	parser->setInterpolation(nullptr);
 
 	std::cout << parser->getHeader() << std::endl;
 
-	initialize_port_audio(parser->getHeader()->getSampleRate());
-	//initialize_port_audio(44100);
+	//initialize_port_audio(parser->getHeader()->getSampleRate());
+	initialize_port_audio(30000);
 	play_audio();
 
     delete parser;
@@ -53,7 +54,7 @@ void play_audio()
 {
     Pa_StartStream(_stream);
 	while (Pa_IsStreamActive(_stream)) {
-		//Pa_Sleep(100);
+		Pa_Sleep(100);
 	}
 	Pa_StopStream(_stream);
 
@@ -72,6 +73,11 @@ int pa_stream_callback(const void* input, void* output, unsigned long frameCount
 
 	for (wav::WavSample* sample: data->getSamples(frameCount * data->getHeader()->getChannels()))
 	{
+		//if (sample->normalize(-1.0f, 1.0f) != 0){
+		//	std::cout << "SAMPLE: " << sample->normalize(-1.0f, 1.0f) << std::endl;
+		//}
+
+
 		if (sample == nullptr)
 			break;
 

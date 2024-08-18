@@ -25,6 +25,7 @@ namespace wav
         PcmSample(uint64_t value);
         PcmSample(float value);
         PcmSample(double value);
+        PcmSample(PcmSample* value);
     
         virtual double normalize(double start, double end) override;
         virtual float normalize(float start, float end) override;

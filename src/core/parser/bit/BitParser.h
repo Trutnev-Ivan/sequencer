@@ -61,6 +61,7 @@ public:
     int64_t getSigned(int count);
     std::ifstream* getFile();
     bool isFileEnd();
+    std::streampos tellg();
 
     template<class T>
     T get(int count)

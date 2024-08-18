@@ -1,6 +1,7 @@
 #pragma once
 #include "Interpolation.h"
 #include <vector>
+#include <fstream>
 
 namespace wav
 {
@@ -14,7 +15,7 @@ namespace wav
         WavSample* getInterpolationSample(int i, WavSample* start, WavSample* end);
         WavSample* prevSample = nullptr;
     public:
-        LinearInterpolation(WavFormat* format);
+        LinearInterpolation(WavFormat* format, int dataSize);
         virtual WavSample* nextSample();
     };
 }

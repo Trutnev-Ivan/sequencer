@@ -119,6 +119,8 @@ add_library(wav
             "${INCLUDE_CORE_DIRECTORY}parser/files/wav/interpolation/Interpolation.cpp"
             "${INCLUDE_CORE_DIRECTORY}parser/files/wav/interpolation/LinearInterpolation.h"
             "${INCLUDE_CORE_DIRECTORY}parser/files/wav/interpolation/LinearInterpolation.cpp"
+            "${INCLUDE_CORE_DIRECTORY}parser/files/wav/interpolation/Fir.h"
+            "${INCLUDE_CORE_DIRECTORY}parser/files/wav/interpolation/Fir.cpp"
 
             "${INCLUDE_CORE_DIRECTORY}parser/files/wav/chunks/FmtChunk.h"
             "${INCLUDE_CORE_DIRECTORY}parser/files/wav/chunks/FmtChunk.cpp"

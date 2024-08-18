@@ -1,10 +1,10 @@
 #include "LinearInterpolation.h"
 #include "../formats/WavFormat.h"
-#include <iostream>
 
-wav::LinearInterpolation::LinearInterpolation(WavFormat* format): 
-    Interpolation(format) 
-    {}
+wav::LinearInterpolation::LinearInterpolation(WavFormat* format, int dataSize): 
+    Interpolation(format, dataSize) 
+    {
+    }
 
 wav::WavSample* wav::LinearInterpolation::nextSample()
 {
@@ -14,6 +14,11 @@ wav::WavSample* wav::LinearInterpolation::nextSample()
     }
 
     this->fillBuffer();
+
+    if (!this->buffer.size()){
+        return nullptr;
+    }
+
     return this->getFirstElementFromBuffer();
 }
 
@@ -38,6 +43,7 @@ void wav::LinearInterpolation::fillBuffer()
     if (!this->format->isFileEnd() && startSample == nullptr)
     {
         startSample = this->format->nextSample();
+
     }
     
     if (!this->format->isFileEnd())
@@ -53,23 +59,26 @@ void wav::LinearInterpolation::fillBuffer()
     if (endSample != nullptr)
     {
         this->countAppend += factor;
-        uint32_t countPoints = static_cast<uint32_t>(this->countAppend)+1;
+        uint32_t countPoints = static_cast<uint32_t>(this->countAppend) + 1;
 
         for (int i = 1; i < countPoints; ++i)
         {
+            float h = 1.f / (int(this->countAppend)+1);
+
             wav::WavSample* s = this->getInterpolationSample(i, startSample, endSample);
             this->buffer.push_back(s);
         }
-
-        this->buffer.push_back(endSample);
+    
+        this->buffer.push_back(endSample);    
         this->prevSample = new wav::WavSample(endSample);
+
         this->countAppend -= countPoints;
     }
 }
 
 wav::WavSample* wav::LinearInterpolation::getInterpolationSample(int i, wav::WavSample* start, wav::WavSample* end)
 {
-    float h = 1 / (this->countAppend+1);
+    float h = 1.f / (int(this->countAppend)+1);
 
     wav::WavSample* newSample = nullptr;
 

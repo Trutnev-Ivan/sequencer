@@ -1,6 +1,7 @@
 #include "WavParser.h"
 #include <iostream>
 #include "interpolation/LinearInterpolation.h"
+#include "interpolation/Fir.h"
 
 wav::WavParser::WavParser(std::string path)
 {    
@@ -34,9 +35,6 @@ void wav::WavParser::parseHeader()
     this->parsingStrategy = WavFormatFactory::getInstance(this->bitParser, this->bitParser->getUnsigned(16));
     this->parsingStrategy->parseFmtChunk();
 
-    //TODO: добавить возможность изменять интерполяции
-    this->parsingStrategy->setInterpolation(new wav::LinearInterpolation(this->parsingStrategy));
-
     uint32_t chunkId = this->bitParser->getUnsigned(32);
 
     //TODO: добавить парсинг др. типов чанков
@@ -45,6 +43,12 @@ void wav::WavParser::parseHeader()
         this->dataSize = this->bitParser->getUnsigned(32);
         this->startDataPosition = this->file->tellg();
     }
+}
+
+void wav::WavParser::setInterpolation(wav::Interpolation* interpolation)
+{
+    //TODO: добавить возможность изменять интерполяции
+    this->parsingStrategy->setInterpolation(new wav::Fir(this->parsingStrategy, this->dataSize));
 }
 
 wav::WavParser::~WavParser()
@@ -70,9 +74,12 @@ wav::FmtChunk* wav::WavParser::getHeader()
 
 wav::WavSample* wav::WavParser::getSample()
 {
+    //TODO: refactor
+    //return this->parsingStrategy->getSample();
+
     unsigned long long countToEndFile = this->fileSize - this->file->tellg();
 
-    if (!this->bitParser->isFileEnd() && countToEndFile >= this->getHeader()->getBitsPerSample() / CHAR_BIT)
+    if (this->parsingStrategy->hasNextSample(countToEndFile))
         return this->parsingStrategy->getSample();
     
     return nullptr;

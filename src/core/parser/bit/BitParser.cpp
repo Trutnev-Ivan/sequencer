@@ -45,3 +45,8 @@ bool BitParser::isFileEnd()
 {
     return this->file->eof();
 }
+
+std::streampos BitParser::tellg()
+{
+    return this->file->tellg();
+}

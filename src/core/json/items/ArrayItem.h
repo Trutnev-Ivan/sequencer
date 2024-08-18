@@ -3,6 +3,7 @@
 #include "CommonItem.h"
 #include <list>
 #include <tuple>
+#include <stdexcept>
 
 namespace json
 {

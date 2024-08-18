@@ -38,5 +38,6 @@ namespace wav
         WavSample* getSample();
         std::vector<WavSample*> getSamples(int count);
         void changeSampleRate(uint32_t sampleRate);
+        void setInterpolation(wav::Interpolation* interpolation);
     };
 }
