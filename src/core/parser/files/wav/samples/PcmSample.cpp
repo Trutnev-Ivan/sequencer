@@ -117,8 +117,6 @@ int64_t wav::PcmSample::normalize(int64_t start, int64_t end)
             fromEnd = PcmSample::MAX_SAMPLE_VALUE_32;
     }
 
-
-
     return NumberTools::convertDiapason<int64_t>(
                         value,
                         fromStart,

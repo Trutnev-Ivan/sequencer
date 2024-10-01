@@ -1,7 +1,9 @@
 #include "Fir.h"
 #include "../formats/WavFormat.h"
 #include "../samples/PcmSample.h"
+#include "../WavParser.h"
 #include <cmath>
+#include <iostream>
 
 wav::Fir::Fir(WavFormat* format, int dataSize):
     Interpolation(format, dataSize)
@@ -10,14 +12,10 @@ wav::Fir::Fir(WavFormat* format, int dataSize):
     uint32_t newSampleRate = this->format->getInterpolationSampleRate();
     float fraction = newSampleRate / (float)oldSampleRate;
  
-    while (this->format->hasNextSample(this->dataSize - this->format->tellg()))
+    while (this->format->hasNextSample())
     {
         samples.push_back(this->format->nextSample());
     }
-
-    //for (int i = 0; i < this->dataSize; ++i){
-    //    samples.push_back(this->format->nextSample());
-    //}
 
     this->calcCoefficients();
 
@@ -100,7 +98,5 @@ wav::WavSample* wav::Fir::nextSample()
 
 bool wav::Fir::hasNextSample()
 {
-    //std::cout << this->buffer.size() << " - " << this->index << std::endl;
-
     return this->index != this->buffer.size();
 }

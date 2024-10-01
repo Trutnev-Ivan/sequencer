@@ -1,4 +1,5 @@
 #include "WavFormat.h"
+#include "../WavParser.h"
 
 wav::WavFormat::WavFormat(BitParser* parser)
 {
@@ -48,14 +49,21 @@ bool wav::WavFormat::isFileEnd()
     return this->parser->isFileEnd();
 }
 
-//TODO: refactor
-bool wav::WavFormat::hasNextSample(int countToEndFile)
+bool wav::WavFormat::hasNextSample()
 {
-    return !this->isFileEnd() && countToEndFile >= this->fmtChunk->getBitsPerSample() / CHAR_BIT || (this->interpolationStrategy && this->interpolationStrategy->hasNextSample());
+    wav::ChunkInfo chunkInfo = this->getChunkInfo(WavParser::DATA_ID);
+    return !this->isFileEnd() && this->parser->getFile()->cur < chunkInfo.seek + chunkInfo.size || this->interpolationStrategy && this->interpolationStrategy->hasNextSample();
 }
 
-// TODO: refactor
-std::streampos wav::WavFormat::tellg()
+void wav::WavFormat::addChunkInfo(unsigned chunk, unsigned size, unsigned seek)
 {
-    return this->parser->tellg();
+    wav::ChunkInfo chunkInfo;
+    chunkInfo.size = size;
+    chunkInfo.seek = seek;
+    this->mapChunk.insert(std::make_pair(chunk, chunkInfo));
+}
+
+wav::ChunkInfo wav::WavFormat::getChunkInfo(unsigned chunk)
+{
+    return this->mapChunk[chunk];
 }

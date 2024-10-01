@@ -22,13 +22,14 @@ int main(int argc, char** argv)
 	//parser = new wav::WavParser("PinkPanther30_stereo.wav");
 	//parser = new wav::WavParser("example.wav");
 	//parser = new wav::WavParser("pixel.wav");
-	parser->changeSampleRate(30000);
+	
+	parser->changeSampleRate(50000);
 	parser->setInterpolation(nullptr);
 
-	std::cout << parser->getHeader() << std::endl;
+	//std::cout << parser->getHeader() << std::endl;
 
 	//initialize_port_audio(parser->getHeader()->getSampleRate());
-	initialize_port_audio(30000);
+	initialize_port_audio(50000);
 	play_audio();
 
     delete parser;

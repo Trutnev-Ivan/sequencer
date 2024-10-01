@@ -17,6 +17,9 @@ wav::WavParser::WavParser(std::string path)
     this->parseHeader();
 }
 
+/**
+ * Парсит заголовок у wav
+ */
 void wav::WavParser::parseHeader()
 {
     if (this->bitParser->getUnsigned(32) != WavParser::RIFF)
@@ -27,6 +30,8 @@ void wav::WavParser::parseHeader()
     if (this->bitParser->getUnsigned(32) != WavParser::WAVE)
         throw WaveException();
 
+    unsigned fmtChunkSeek = this->bitParser->getFile()->cur;
+
     if (this->bitParser->getUnsigned(32) != WavParser::FORMAT_ID)
         throw FormatChunkException();
 
@@ -35,20 +40,22 @@ void wav::WavParser::parseHeader()
     this->parsingStrategy = WavFormatFactory::getInstance(this->bitParser, this->bitParser->getUnsigned(16));
     this->parsingStrategy->parseFmtChunk();
 
+    this->parsingStrategy->addChunkInfo(WavParser::FORMAT_ID, formatChunkSize, fmtChunkSeek);
+
+    unsigned chunkSeek = this->bitParser->getFile()->cur;
     uint32_t chunkId = this->bitParser->getUnsigned(32);
 
     //TODO: добавить парсинг др. типов чанков
     if (chunkId == WavParser::DATA_ID)
     {
-        this->dataSize = this->bitParser->getUnsigned(32);
-        this->startDataPosition = this->file->tellg();
+        this->parsingStrategy->addChunkInfo(WavParser::DATA_ID, this->bitParser->getUnsigned(32), chunkSeek);
     }
 }
 
+// TODO: добавить возможность менять интерполяцию
 void wav::WavParser::setInterpolation(wav::Interpolation* interpolation)
 {
-    //TODO: добавить возможность изменять интерполяции
-    this->parsingStrategy->setInterpolation(new wav::Fir(this->parsingStrategy, this->dataSize));
+    this->parsingStrategy->setInterpolation(new wav::Fir(this->parsingStrategy, this->parsingStrategy->getChunkInfo(WavParser::DATA_ID).size));
 }
 
 wav::WavParser::~WavParser()
@@ -72,19 +79,20 @@ wav::FmtChunk* wav::WavParser::getHeader()
     return nullptr;
 }
 
+/**
+ * Возвращает 1 сэмпл
+ */
 wav::WavSample* wav::WavParser::getSample()
 {
-    //TODO: refactor
-    //return this->parsingStrategy->getSample();
-
-    unsigned long long countToEndFile = this->fileSize - this->file->tellg();
-
-    if (this->parsingStrategy->hasNextSample(countToEndFile))
+    if (this->parsingStrategy->hasNextSample())
         return this->parsingStrategy->getSample();
     
     return nullptr;
 }
 
+/**
+ * Возвращает count сэмплов
+ */
 std::vector<wav::WavSample*> wav::WavParser::getSamples(int count)
 {
     std::vector<WavSample*> vector;

@@ -9,7 +9,7 @@ namespace wav
     class Fir: public Interpolation
     {
     private:
-        std::vector<PcmSample*> buffer;
+        std::vector<PcmSample*> buffer; // TODO: Заменить на потоковый файловый инпут
         std::vector<wav::WavSample*> samples;
         int index = 0;
         std::vector<float> coefficients;
